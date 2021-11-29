@@ -12,7 +12,7 @@ export default function App() {
 
   let dayOfMonth = new Date().toISOString().slice(0, 10);
 
-  // Following logic (lines 21-88) represents the idea of: "render a new quote and image automatically everyday"
+  // Following logic (lines 18-85) represents the following call "render a new quote and image automatically everyday"
   // I Decided to use aSyncStorage 
 
   const storeDateData = async (value) => {
