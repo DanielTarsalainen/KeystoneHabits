@@ -88,7 +88,6 @@ const getData = async () => {
     fetch("https://stoic-server.herokuapp.com/random")
       .then(reponse => reponse.json())
       .then(responseJson => storeQuoteData(responseJson[0]))
-      // .then(responseJson => setQuoteData(responseJson[0]))
       .catch(error => {
         Alert.alert('Error', error)
       })
@@ -114,7 +113,7 @@ const getData = async () => {
     getQuoteData()
     getPhotoData()
     if (counter == 4) {
-      Alert.alert("Caution! Requests are limited to 50/hour")
+      Alert.alert("Caution! Requests (total requests of all users) are limited to 50/hour")
       setCounter(1)
     }
   }
