@@ -8,12 +8,9 @@ export default function App() {
 
   const [quoteData, setQuoteData] = useState([])
   const [photoData, setPhotoData] = useState("")
+  const [counter, setCounter] = useState(1);
 
-  let dayOfMonth = new Date();
-
-  dayOfMonth = dayOfMonth.toISOString().slice(0, 10)
-
-
+  let dayOfMonth = new Date().toISOString().slice(0, 10);
 
   // Following logic (lines 21-88) represents the idea of: "render a new quote and image automatically everyday"
   // I Decided to use aSyncStorage 
@@ -21,7 +18,7 @@ export default function App() {
   const storeDateData = async (value) => {
     try {
     const toString = value.toString()
-    await AsyncStorage.setItem('@month', toString)
+    await AsyncStorage.setItem('@day_data', toString)
     getData()
   } catch (e) {
     return e
@@ -61,6 +58,7 @@ const getQuoteStorage = async () => {
     const value = await AsyncStorage.getItem('@quote_data')
     const valueToObject = JSON.parse(value)
     setQuoteData(valueToObject);
+    console.log(valueToObject)
   } catch(e) {
     return e
   }
@@ -68,7 +66,7 @@ const getQuoteStorage = async () => {
   
 const getData = async () => {
   try {
-    const savedDate = await AsyncStorage.getItem('@month')
+    const savedDate = await AsyncStorage.getItem('@day_data')
     const parsedSavedDate = Date.parse(savedDate)
     const parsedInitialDate = Date.parse(dayOfMonth)
 
@@ -103,46 +101,57 @@ const getData = async () => {
   const getPhotoData = () => {
       fetch("https://api.unsplash.com/photos/random?client_id=b7YQ1F52WYTy-uNWGKFdp1ADP09pfDvLJs3uUQ7cMBg&query=wanderlust,nature")
         .then(response => response.json())
-        .then(responseJson => storePhotoData(responseJson.urls.full))
+        .then(responseJson => storePhotoData(responseJson.urls.small))
         .catch(error => {
           isString(photoData) ? Alert.alert("Exceeded the picture request limit") :
             Alert.alert('Error', error)
         })
-    }
-
+  }
   
+  const getNewData = () => {
+    incrementCounter()
+    console.log(counter)
+    getQuoteData()
+    getPhotoData()
+    if (counter == 4) {
+      Alert.alert("Caution! Requests are limited to 50/hour")
+      setCounter(1)
+    }
+  }
+
+  const incrementCounter = () => setCounter(counter + 1);
+
+ 
   useEffect(() => {
     getData()
   }, []);
+
 
   return (
     <View style={styles.container}>
       <Card>
         <Card.Title>A quote from {quoteData.author}</Card.Title>
         <Card.Divider></Card.Divider>
-        <Text>{quoteData.body}</Text>
+        <Text>"{quoteData.body}"</Text>
         <Card.Divider></Card.Divider>
         {!!photoData ? 
-        <Card.Image
-          style={{width: '100%', height: '76%'}}
+        <Card.Image   
           source={{uri:photoData}}
         />
           : <Text>Too many renders, come back later!</Text>
         }
       </Card>
+
+      <Button onPress={getNewData} buttonStyle={{borderRadius: 10, paddinBottom: 200}} title="fetch new card"></Button>
+      
     </View>
   );
 }
 
-
-
 const styles = StyleSheet.create({
   container: {
-    marginTop: 70,
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 190
-  },
-});
+    justifyContent: 'center'},
+})
