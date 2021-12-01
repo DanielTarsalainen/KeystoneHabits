@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons'; 
 
 
-export default function App() {
+export default function Homepage() {
 
   const Tab = createBottomTabNavigator();
 
@@ -171,8 +171,6 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     paddingRight: 40,
     textAlign: "center"
-
-
   }
 }
 )
