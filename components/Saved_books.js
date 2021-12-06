@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons'; 
 
 
-export default function App() {
+export default function Saved_books({route}) {
 
 
   return (

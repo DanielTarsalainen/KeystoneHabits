@@ -11,9 +11,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Authentication from './Authentication';
 import LoginScreen from './screens/LoginScreen';
+import HomeScreen from './screens/HomeScreen';
 import Homepage from './components/Homepage';
-import MainNav from './components/MainNav';
-// import LoginNav from './navigations/LoginNav'
 
 
 const Tab = createBottomTabNavigator();
@@ -21,12 +20,11 @@ const Stack = createStackNavigator();
 
 export default function App() {
   
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
-        <Stack.Screen options={{headerShown: false}} name="Homepage" component={MainNav} />
+        <Stack.Screen options={{headerShown: false}} name="Homepage" component={Homepage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

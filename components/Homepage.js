@@ -4,6 +4,11 @@ import { Card, Button, Text, useTheme, Divider } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons'; 
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { auth } from '../Firebase';
+import { NavigationContainer } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/core";
+
 
 
 export default function Homepage() {
@@ -13,9 +18,10 @@ export default function Homepage() {
   const [quoteData, setQuoteData] = useState([])
   const [photoData, setPhotoData] = useState("")
   const [counter, setCounter] = useState(1);
-
-  let dayOfMonth = new Date().toISOString().slice(0, 10);
   const { theme } = useTheme();
+  const navigation = useNavigation();
+  let dayOfMonth = new Date().toISOString().slice(0, 10);
+
   
   // Following logic (lines 18-85) represents the following call: "render a new quote and image automatically everyday"
   // I Decided to use React Native Community's aSyncStorage 
@@ -82,7 +88,6 @@ const getData = async () => {
         getQuoteData()
         getPhotoData()
       }
-
   } catch(e) {
     return e
   }
@@ -121,19 +126,33 @@ const getData = async () => {
     }
   }
 
+
+
   const incrementCounter = () => setCounter(counter + 1);
 
  
   useEffect(() => {
     getData()
+    // Prevents data leak
+    return () => { 
+      setQuoteData([])
+      setPhotoData("")
+    };
   }, []);
+
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login")
+      })
+      .catch(error => alert(error.message))
+  }
 
 
   return (
     <View style={styles.container}>
-      
       <Text h2 style={{ fontFamily: 'monospace', textAlignVertical: 'top', flex: 1, marginTop: 8 }}>  KeystoneHabits </Text>
-
       <Text style={styles.text} h4 h4Style={{ color: theme?.colors?.primary }}>
         Here's a daily dose of Stoic wisdom for you: </Text>
       <View style={{marginBottom: 100}}>
@@ -154,8 +173,12 @@ const getData = async () => {
               </Card>
               </View>
           <View style={{ marginTop: 20,  }}>
-              
-        </View>
+      </View>
+      <TouchableOpacity
+        onPress={handleSignOut}
+        style={styles.button}>
+        <Text style={styles.buttonText}> Sign out</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -171,6 +194,26 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     paddingRight: 40,
     textAlign: "center"
-  }
+  },
+  button: {
+    backgroundColor: "#0782F9",
+    width: "100%",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginBottom: 40
+  },
+  buttonOutLine: {
+    backgroundColor: "white",
+    marginTop: 5,
+    borderColor: "#0782F9",
+    borderWidth: 2,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
+  },
 }
 )

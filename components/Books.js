@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, View, Button, TextInput, FlatList, StatusBar, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function App() {
+export default function Books({ navigation }) {
 
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -42,8 +42,11 @@ export default function App() {
         }
         data={books}/>
       <TextInput style={{ fontSize: 18, width: 200 }} placeholder='keyword'
-        onChangeText={text => setSearchTerm(text)} /> 
-    <Button title="Search books" onPress={getBooks}></Button>
+        onChangeText={text => setSearchTerm(text)} />
+            <Button title="Search books" onPress={getBooks}></Button>
+             {/* <Button onPress={() => navigation.navigate('Saved_books')}
+            title="Saved_books"
+          /> */}
     </View>
   );
 }
