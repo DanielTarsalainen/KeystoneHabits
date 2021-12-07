@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
+import 'firebase/compat/database';
 
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -30,7 +30,7 @@ if (firebase.apps.length === 0) {
   app = firebase.app();
 }
 
-const db = app.firestore();
+const db = app.database();
 const auth = firebase.auth();
 
 export { db, auth };

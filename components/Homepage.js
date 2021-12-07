@@ -10,11 +10,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/core";
 
 
-
 export default function Homepage() {
-
+  
+  const userId = auth.currentUser.uid
   const Tab = createBottomTabNavigator();
-
   const [quoteData, setQuoteData] = useState([])
   const [photoData, setPhotoData] = useState("")
   const [counter, setCounter] = useState(1);
@@ -22,6 +21,14 @@ export default function Homepage() {
   const navigation = useNavigation();
   let dayOfMonth = new Date().toISOString().slice(0, 10);
 
+    const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login")
+      })
+        .catch(error => alert(error.message))
+  }
   
   // Following logic (lines 18-85) represents the following call: "render a new quote and image automatically everyday"
   // I Decided to use React Native Community's aSyncStorage 
@@ -139,15 +146,6 @@ const getData = async () => {
       setPhotoData("")
     };
   }, []);
-
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("Login")
-      })
-      .catch(error => alert(error.message))
-  }
 
 
   return (
