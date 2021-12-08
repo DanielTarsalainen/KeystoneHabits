@@ -12,7 +12,6 @@ import { useNavigation } from "@react-navigation/core";
 
 export default function Homepage() {
   
-  const userId = auth.currentUser.uid
   const Tab = createBottomTabNavigator();
   const [quoteData, setQuoteData] = useState([])
   const [photoData, setPhotoData] = useState("")
@@ -132,8 +131,6 @@ const getData = async () => {
       setCounter(1)
     }
   }
-
-
 
   const incrementCounter = () => setCounter(counter + 1);
 

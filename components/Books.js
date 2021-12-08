@@ -9,6 +9,7 @@ import {
   FlatList,
   StatusBar,
   Image,
+  SafeAreaView
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -17,31 +18,42 @@ import { auth, db } from '../Firebase';
 import { getDatabase, push, ref, onValue } from "firebase/database";
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
+import ListItem, { Separator } from './ListItem';
 
-export default function Books({ navigation }) {
+// export default function Books() {
+
+//   // useEffect(() => {
+//   //   const itemsRef = ref(db, 'books/')
+//   //   onValue(itemsRef, (snapshot) => {
+//   //     const data = snapshot.val();
+//   //     if (data) {
+//   //       setItems(Object.values(data));
+//   //     }
+//   //   })
+//   // }, []);
+
+
+export default function Books({navigation}) {
+
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
   const [savedBooks, setSavedBooks] = useState([]);
 
-   const saveItem = () => {
+   const saveItem = (item) => {
     push(ref(db, 'books/'), {
-      'product': product, 'amount': amount
+      'author': item.volumeInfo.authors ? item.volumeInfo.authors[0] : null, 'title': item.volumeInfo.title ? item.volumeInfo.title : null, 'picture': item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : null , 'bookId': item.id, 'userid': auth.currentUser.uid
     });
-    console.log(product)
+    deleteItemById(item.id)
+     alert("Book " + item.volumeInfo.title + ' added succesfully')
+  }
+  
+  const deleteItemById = (id) => {
+    const filteredData = books.filter(item => item.id !== id);
+    setBooks(filteredData)
   }
 
-  useEffect(() => {
-    const itemsRef = ref(db, 'books/')
-    onValue(itemsRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        setItems(Object.values(data));
-      }
-    })
-  }, []);
-
-
   const getBooks = () => {
+    console.log(searchTerm)
     fetch(
       `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD0JSSkprb0aJy9r-csuF7aWT3k7Jyhop8`
     )
@@ -52,53 +64,33 @@ export default function Books({ navigation }) {
       });
   };
 
-  const saveBook = (item) => {
-    setSavedBooks([...savedBooks, item]);
-    console.log(savedBooks[0]);
-  };
-
-  const leftActions = () => {
+ 
     return (
-      <View style={styles.leftAction}>
-        <Text styles={styles.actionText}>Add to your books</Text>
-      </View>
-    )
-  }
-
-  return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-      <FlatList
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View>
-            <Swipeable renderLeftActions={leftActions}>
-            <Text style={{ fontSize: 18 }}>{item.volumeInfo.title}</Text>
-            {item.volumeInfo.imageLinks ? (
-              <Image
-                source={{ uri: item.volumeInfo.imageLinks.thumbnail }}
-                style={{ width: 100, height: 100 }}
-              />
-            ) : null}
-            </Swipeable>
-          </View>
-        )}
-        data={books}
-      />
-      <TextInput
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={books}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <ListItem
+              {...item}
+              onSwipeFromLeft={() => saveItem(item)}
+              onRightPress={() => alert("muu")}
+            />
+          )}
+          ItemSeparatorComponent={() => <Separator />}
+        />
+         <TextInput
         style={{ fontSize: 18, width: 200 }}
         placeholder="keyword"
         onChangeText={(text) => setSearchTerm(text)}
       />
       <Button title="Search books" onPress={getBooks}></Button>
-      {/* <Button onPress={() => navigation.navigate('Saved_books')}
-            title="Saved_books"
-          /> */}
-    </View>
+      <Button onPress={() => navigation.navigate('OwnBooks')} title="OwnBooks"/>
+      </SafeAreaView>
 
-  );
+    );
 }
-
+  
 const styles = StyleSheet.create({
   container: {
     flex: 1,

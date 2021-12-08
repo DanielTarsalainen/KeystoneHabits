@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './Homepage';
 import Books from './Books';
 import Meditations from './Meditations'
+import BooksNav from './BooksNav'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 // import LoginNav from './navigations/LoginNav'
@@ -22,7 +23,7 @@ const MainNav = () => {
 
             if (route.name === 'Stoic wisdom') {
               iconName = 'thought-bubble';
-            } else if (route.name === 'Books') {
+            } else if (route.name === 'BooksNav') {
               iconName = 'bookshelf';
             } else if (route.name === 'Meditations') {
               iconName = 'meditation' 
@@ -32,7 +33,7 @@ const MainNav = () => {
           },
         })}>
         <Tab.Screen options={{headerShown: false}} name="Stoic wisdom" component={HomePage} />
-        <Tab.Screen options={{headerShown: false}} name="Books" component={Books} />
+        <Tab.Screen options={{headerShown: false}} name="BooksNav" component={BooksNav} />
         <Tab.Screen options={{headerShown: false}} name="Meditations" component={Meditations}/>
       </Tab.Navigator>
     )
