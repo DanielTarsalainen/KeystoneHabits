@@ -73,7 +73,7 @@ export default function Books({navigation}) {
         />
         <View style={styles.buttons}>
       <Button title="Search books" onPress={getBooks}></Button>
-      <Button onPress={() => navigation.navigate('OwnBooks')} title="OwnBooks"/>
+      <Button onPress={() => navigation.navigate('Bookshelf')} title="OwnBooks"/>
       </View>
       </SafeAreaView>
 

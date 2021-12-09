@@ -15,16 +15,22 @@ import { auth, db } from "../Firebase";
 import { getDatabase, push, ref, onValue, query } from "firebase/database";
 import ListOwnItem, { Separator } from "./ListOwnItems";
 
-export default function OwnBooks() {
+export default function OwnBooks({navigation}) {
+    
   const [items, setItems] = useState([]);
+
+  console.log(items)
 
   useEffect(() => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);
-    ref.once("value", function (snapshot) {
-      if (snapshot.val()) {
-        setItems(Object.values(snapshot.val()));
-      }
-    });
+    ref
+      .orderByChild("isRead")
+      .equalTo(false)
+      .once("value", function (snapshot) {
+        if (snapshot.val()) {
+          setItems(Object.values(snapshot.val()));
+        }
+      });
   }, []);
 
   const removeItem = (bookId) => {
@@ -53,6 +59,7 @@ export default function OwnBooks() {
                 ref.child(data.key).update({
                     'isRead':true
                 })
+                deleteItemById(item)
                 alert("updated succesfully")
             })
         });
@@ -68,7 +75,8 @@ export default function OwnBooks() {
             onSwipeFromLeft={() => markAsRead(item.bookId)}/>
         )}
         ItemSeparatorComponent={() => <Separator />}
-      />
+          />
+        <Button onPress={() => navigation.navigate('Finished books')} title="View books that you have read"> </Button>
     </SafeAreaView>
   );
 }
