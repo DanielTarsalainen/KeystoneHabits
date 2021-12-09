@@ -147,7 +147,7 @@ const getData = async () => {
 
   return (
     <View style={styles.container}>
-      <Text h2 style={{ fontFamily: 'monospace', textAlignVertical: 'top', flex: 1, marginTop: 8 }}>  KeystoneHabits </Text>
+      {/* <Text h2 style={{ fontFamily: 'monospace', textAlignVertical: 'top', flex: 1, marginTop: 8 }}>  KeystoneHabits </Text> */}
       <Text style={styles.text} h4 h4Style={{ color: theme?.colors?.primary }}>
         Here's a daily dose of Stoic wisdom for you: </Text>
       <View style={{marginBottom: 100}}>

@@ -32,7 +32,7 @@ const MainNav = () => {
             return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
           },
         })}>
-        <Tab.Screen options={{headerShown: false}} name="Stoic wisdom" component={HomePage} />
+        <Tab.Screen options={{headerShown: true}} name="Stoic wisdom" component={HomePage} />
         <Tab.Screen options={{headerShown: false}} name="BooksNav" component={BooksNav} />
         <Tab.Screen options={{headerShown: false}} name="Meditations" component={Meditations}/>
       </Tab.Navigator>

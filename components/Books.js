@@ -51,6 +51,10 @@ export default function Books({navigation}) {
       });
   };
 
+   useEffect(() => {
+   setBooks([])
+  }, [!searchTerm]);
+
  
     return (
       <SafeAreaView style={styles.container}>

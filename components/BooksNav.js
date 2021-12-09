@@ -12,7 +12,7 @@ export default function App() {
   
   return (
       <Stack.Navigator>
-        <Stack.Screen options={{headerShown: false}} name="Books" component={Books} />
+        <Stack.Screen options={{headerShown: true}} name="Books" component={Books} />
         <Stack.Screen options={{headerShown: true}} name="Bookshelf" component={OwnBooksNav} />
       </Stack.Navigator>
   );
