@@ -101,8 +101,8 @@ const ListItem = ({ volumeInfo, onSwipeFromLeft, onRightPress }) => (
 
 const ListOwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) => (
   <Swipeable
-    // renderLeftActions={LeftActions}
-    // onSwipeableLeftOpen={onSwipeFromLeft}
+    renderLeftActions={LeftActions}
+    onSwipeableLeftOpen={onSwipeFromLeft}
     renderRightActions={(progress, dragX) => (
       <RightActions progress={progress} dragX={dragX} onPress={onRightPress} />
     )}

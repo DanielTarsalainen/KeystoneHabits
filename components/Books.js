@@ -20,7 +20,6 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
 import ListItem, { Separator } from './ListItem';
 
-
 export default function Books({navigation}) {
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,8 +27,8 @@ export default function Books({navigation}) {
   const [savedBooks, setSavedBooks] = useState([]);
 
    const saveItem = (item) => {
-    push(ref(db, 'books/'), {
-      'author': item.volumeInfo.authors ? item.volumeInfo.authors[0] : null, 'title': item.volumeInfo.title ? item.volumeInfo.title : null, 'picture': item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : null , 'bookId': item.id, 'userid': auth.currentUser.uid
+    push(ref(db, `books/${auth.currentUser.uid}`), {
+      'author': item.volumeInfo.authors ? item.volumeInfo.authors[0] : null, 'title': item.volumeInfo.title ? item.volumeInfo.title : null, 'picture': item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : null , 'isRead': false, 'bookId': item.id, 'userid': auth.currentUser.uid
     });
     deleteItemById(item.id)
      alert("Book " + item.volumeInfo.title + ' added succesfully')
@@ -71,9 +70,11 @@ export default function Books({navigation}) {
         style={{ fontSize: 18, width: 200 }}
         placeholder="keyword"
         onChangeText={(text) => setSearchTerm(text)}
-      />
+        />
+        <View style={styles.buttons}>
       <Button title="Search books" onPress={getBooks}></Button>
       <Button onPress={() => navigation.navigate('OwnBooks')} title="OwnBooks"/>
+      </View>
       </SafeAreaView>
 
     );
@@ -95,5 +96,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
     padding: 20
+  },
+  buttons: {
+    flexDirection: "row",
+    
   }
+
 });

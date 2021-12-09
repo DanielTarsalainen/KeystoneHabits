@@ -19,9 +19,8 @@ export default function OwnBooks() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    var ref = db.ref("books");
-    var query = ref.orderByChild("userid").equalTo(auth.currentUser.uid);
-    query.once("value", function (snapshot) {
+    var ref = db.ref(`books/${auth.currentUser.uid}`);
+    ref.once("value", function (snapshot) {
       if (snapshot.val()) {
         setItems(Object.values(snapshot.val()));
       }
@@ -29,35 +28,44 @@ export default function OwnBooks() {
   }, []);
 
   const removeItem = (bookId) => {
-    var ref = db.ref("books");
+    var ref = db.ref(`books/${auth.currentUser.uid}`);
     ref
-      .orderByChild("userid")
-      .equalTo(auth.currentUser.uid)
+      .orderByChild("bookId")
+      .equalTo(bookId)
       .on("value", function (snapshot) {
         snapshot.forEach(function (data) {
-          var record = data.val();
-          if (record["bookId"] == bookId) {
-              ref.child(data.key).remove();
-              deleteItemById(bookId)
-            console.log("removed succesfully");
-          }
+          ref.child(data.key).remove();
+          deleteItemById(bookId);
+          console.log("removed succesfully");
         });
       });
-    };
-
+  };
 
   const deleteItemById = (bookId) => {
     const filteredData = items.filter((item) => item.bookId !== bookId);
     setItems(filteredData);
-  };
+    };
+    
+    const markAsRead = (item) => {
+        var ref = db.ref(`books/${auth.currentUser.uid}`);
+        ref.orderByChild("bookId").equalTo(item).on("value", function (snapshot) {
+            snapshot.forEach(function (data) {
+                ref.child(data.key).update({
+                    'isRead':true
+                })
+                alert("updated succesfully")
+            })
+        });
+    }
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={items}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.bookId}
         renderItem={({ item }) => (
-          <ListOwnItem {...item} onRightPress={() => removeItem(item.bookId)} />
+            <ListOwnItem {...item} onRightPress={() => removeItem(item.bookId)}
+            onSwipeFromLeft={() => markAsRead(item.bookId)}/>
         )}
         ItemSeparatorComponent={() => <Separator />}
       />
