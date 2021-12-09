@@ -20,18 +20,6 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
 import ListItem, { Separator } from './ListItem';
 
-// export default function Books() {
-
-//   // useEffect(() => {
-//   //   const itemsRef = ref(db, 'books/')
-//   //   onValue(itemsRef, (snapshot) => {
-//   //     const data = snapshot.val();
-//   //     if (data) {
-//   //       setItems(Object.values(data));
-//   //     }
-//   //   })
-//   // }, []);
-
 
 export default function Books({navigation}) {
 
