@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { auth, db } from "../Firebase";
 import { getDatabase, push, ref, onValue, query } from "firebase/database";
-import ListOwnItem, { Separator } from "./ListOwnItems";
+import OwnItem, { Separator } from "./OwnItem";
 
 export default function OwnBooks({navigation}) {
     
@@ -60,7 +60,7 @@ export default function OwnBooks({navigation}) {
                     'isRead':true
                 })
                 deleteItemById(item)
-                alert("updated succesfully")
+                alert("Book added to 'read books' list ")
             })
         });
     }
@@ -71,7 +71,7 @@ export default function OwnBooks({navigation}) {
         data={items}
         keyExtractor={(item) => item.bookId}
         renderItem={({ item }) => (
-            <ListOwnItem {...item} onRightPress={() => removeItem(item.bookId)}
+            <OwnItem {...item} onRightPress={() => removeItem(item.bookId)}
             onSwipeFromLeft={() => markAsRead(item.bookId)}/>
         )}
         ItemSeparatorComponent={() => <Separator />}

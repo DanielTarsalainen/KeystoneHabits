@@ -3,15 +3,7 @@ import { Alert, StyleSheet, View, TextInput, FlatList, StatusBar, Image } from '
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomePage from './components/Homepage';
-import Books from './components/Books';
-import Meditations from './components/Meditations'
-import Saved_books from './components/Saved_books'
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Authentication from './Authentication';
 import LoginScreen from './screens/LoginScreen';
-import Homepage from './components/Homepage';
 import MainNav from './components/MainNav';
 // import LoginNav from './navigations/LoginNav'
 

@@ -9,42 +9,6 @@ import {
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-  },
-  text: {
-    color: '#4a4a4a',
-    fontSize: 15,
-  },
-  separator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#e4e4e4',
-    marginLeft: 10,
-  },
-  leftAction: {
-    backgroundColor: '#388e3c',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  rightAction: {
-    backgroundColor: '#dd2c00',
-    justifyContent: 'center',
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  actionText: {
-    color: '#fff',
-    fontWeight: '600',
-    padding: 20,
-    fontSize: 20
-  },
-});
-
 export const Separator = () => <View style={styles.separator} />;
 
 const LeftActions = (progress, dragX) => {
@@ -56,7 +20,7 @@ const LeftActions = (progress, dragX) => {
   return (
     <View style={styles.leftAction}>
       <Animated.Text style={[styles.actionText, { transform: [{ scale }] }]}>
-        Add to Your books
+        Mark as read
       </Animated.Text>
     </View>
   );
@@ -79,27 +43,7 @@ const RightActions = ({ progress, dragX, onPress }) => {
   );
 };
 
-const ListItem = ({ volumeInfo, onSwipeFromLeft, onRightPress }) => (
-  <Swipeable
-    renderLeftActions={LeftActions}
-    onSwipeableLeftOpen={onSwipeFromLeft}
-    renderRightActions={(progress, dragX) => (
-      <RightActions progress={progress} dragX={dragX} onPress={onRightPress} />
-    )}
-  >
-    <View style={styles.container}>
-            <Text style={styles.text}>{volumeInfo.title}</Text>
-            {volumeInfo.imageLinks ? (
-              <Image
-                source={{ uri: volumeInfo.imageLinks.thumbnail }}
-                style={{ width: 100, height: 100 }}
-              />
-            ) : null}
-    </View>
-  </Swipeable>
-);
-
-const ListOwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) => (
+const OwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) => (
   <Swipeable
     renderLeftActions={LeftActions}
     onSwipeableLeftOpen={onSwipeFromLeft}
@@ -123,4 +67,39 @@ const ListOwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) 
   </Swipeable>
 );
 
-export default ListOwnItem
+export default OwnItem
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+  },
+  text: {
+    color: '#4a4a4a',
+    fontSize: 15,
+  },
+  separator: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#e4e4e4',
+    marginLeft: 10,
+  },
+  leftAction: {
+    backgroundColor: '#98f500',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  rightAction: {
+    backgroundColor: '#f58900',
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  actionText: {
+    color: '#fff',
+    fontWeight: '600',
+    padding: 20,
+    fontSize: 20
+  },
+});

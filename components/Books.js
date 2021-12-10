@@ -9,7 +9,7 @@ import {
   FlatList,
   StatusBar,
   Image,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -18,21 +18,33 @@ import { auth, db } from '../Firebase';
 import { getDatabase, push, ref, onValue } from "firebase/database";
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
-import ListItem, { Separator } from './ListItem';
+import Item, { Separator } from './Item';
 
 export default function Books({navigation}) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
-  const [savedBooks, setSavedBooks] = useState([]);
 
    const saveItem = (item) => {
-    push(ref(db, `books/${auth.currentUser.uid}`), {
+     let isTrue = false;
+
+     var bookRef = db.ref(`books/${auth.currentUser.uid}`);
+    bookRef.orderByChild("bookId").equalTo(item.id).on("value", function (snapshot) {
+       if (snapshot) {
+         isTrue = true
+       }
+     })
+
+     if (isTrue == false) {
+     push(ref(db, `books/${auth.currentUser.uid}`), {
       'author': item.volumeInfo.authors ? item.volumeInfo.authors[0] : null, 'title': item.volumeInfo.title ? item.volumeInfo.title : null, 'picture': item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : null , 'isRead': false, 'bookId': item.id, 'userid': auth.currentUser.uid
     });
     deleteItemById(item.id)
      alert("Book " + item.volumeInfo.title + ' added succesfully')
-  }
+     } else {
+       alert("You already have this book")
+     }
+     }
   
   const deleteItemById = (id) => {
     const filteredData = books.filter(item => item.id !== id);
@@ -62,11 +74,12 @@ export default function Books({navigation}) {
           data={books}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <ListItem
+            <View>
+            <Item style={styles.item}
               {...item}
               onSwipeFromLeft={() => saveItem(item)}
-              onRightPress={() => alert("muu")}
-            />
+              />
+              </View>
           )}
           ItemSeparatorComponent={() => <Separator />}
         />
@@ -90,6 +103,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%"
   },
   leftAction: {
     backgroundColor: '#388e3c',
@@ -103,7 +117,6 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: "row",
-    
   }
 
 });
