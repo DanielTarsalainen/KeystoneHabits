@@ -8,8 +8,8 @@ import {
   Image
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { ListItem, Avatar } from 'react-native-elements'
 
-export const Separator = () => <View style={styles.separator} />;
 
 const LeftActions = (progress, dragX) => {
   const scale = dragX.interpolate({
@@ -33,7 +33,11 @@ const Item = ({ volumeInfo, onSwipeFromLeft, onRightPress }) => (
     
   >
     <View style={styles.container}>
-            <Text style={styles.text}>{volumeInfo.title}</Text>
+      <ListItem.Title>{volumeInfo.title}</ListItem.Title>
+      {volumeInfo.authors ? 
+      <ListItem.Subtitle>{volumeInfo.authors[0]}</ListItem.Subtitle> : null
+      }
+      
             {volumeInfo.imageLinks ? (
               <Image
                 source={{ uri: volumeInfo.imageLinks.thumbnail }}
@@ -47,20 +51,19 @@ const Item = ({ volumeInfo, onSwipeFromLeft, onRightPress }) => (
 export default Item
 
 const styles = StyleSheet.create({
-  container: {
+   container: {
     backgroundColor: '#fff',
     paddingHorizontal: 10,
     paddingVertical: 20,
+    width: 300
   },
   text: {
     color: '#4a4a4a',
     fontSize: 15,
   },
-  separator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#e4e4e4',
-    marginLeft: 10,
+  leftAction: {
+    backgroundColor: '#98f500',
+    justifyContent: 'center',
   },
   rightAction: {
     backgroundColor: '#f58900',

@@ -8,8 +8,7 @@ import {
   Image
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-
-export const Separator = () => <View style={styles.separator} />;
+import { ListItem, Avatar } from 'react-native-elements'
 
 const LeftActions = (progress, dragX) => {
   const scale = dragX.interpolate({
@@ -52,17 +51,17 @@ const OwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) => (
     )}
   >
     <View style={styles.container}>
-      <Text style={styles.text}>{title}</Text>
-      <Text style={styles.text}>{author}</Text>
-            {picture != null ? (
+      <ListItem.Title>{title}</ListItem.Title>
+      {author ? 
+      <ListItem.Subtitle>{author}</ListItem.Subtitle> : null
+      }
+      
+            {picture ? (
               <Image
                 source={{ uri: picture }}
                 style={{ width: 100, height: 100 }}
               />
-            ) : <Image
-                source={{ uri: "https://cdn.pixabay.com/photo/2016/09/10/17/18/book-1659717_1280.jpg" }}
-                style={{ width: 100, height: 100 }}
-              /> }
+            ) : null}
     </View>
   </Swipeable>
 );
@@ -74,21 +73,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 10,
     paddingVertical: 20,
+    width: 300
   },
   text: {
     color: '#4a4a4a',
     fontSize: 15,
   },
-  separator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#e4e4e4',
-    marginLeft: 10,
-  },
   leftAction: {
     backgroundColor: '#98f500',
     justifyContent: 'center',
-    flex: 1,
   },
   rightAction: {
     backgroundColor: '#f58900',

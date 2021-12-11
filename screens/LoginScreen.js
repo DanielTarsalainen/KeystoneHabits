@@ -7,24 +7,41 @@ import {
   Text,
   View,
   TextInput,
+  Image
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { auth } from "../Firebase";
+import loading from '/loppuprojekti_mobiili/keystonehabits/screens/loading.gif'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isVisible, setIsVisible] = useState()
 
   const navigation = useNavigation();
 
   const unsubscribe = auth.onAuthStateChanged((user) => {
     if (user) {
+      setIsVisible()
       navigation.replace("Homepage");
     }
     return unsubscribe;
   });
+  
+
+useEffect(() => {
+  const timer = setTimeout(() => {
+    setIsVisible(false);
+  });
+  return () => {
+    clearTimeout(timer);
+  }
+}, []);
+
+
 
   const handleSignUp = () => {
+    setIsVisible(true)
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
@@ -36,6 +53,7 @@ const LoginScreen = () => {
   };
 
   const handleLogin = () => {
+    setIsVisible(true)
     auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
@@ -46,6 +64,8 @@ const LoginScreen = () => {
       .catch((error) => alert(error.message));
   };
 
+
+  
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.inputContainer}>
@@ -63,7 +83,7 @@ const LoginScreen = () => {
           style={styles.input}
           secureTextEntry
         />
-      </View>
+        </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
@@ -76,6 +96,13 @@ const LoginScreen = () => {
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
       </View>
+      { isVisible == true ?
+      <View>
+              <Image  style={styles.stretch} source={loading}/>
+
+        </View>
+        : null
+      }
     </KeyboardAvoidingView>
   );
 };
@@ -89,6 +116,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inputContainer: {
+    marginTop: 140,
     width: "80%",
   },
   input: {
@@ -128,4 +156,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
+  stretch: {
+    marginTop: 80,
+    width: 70,
+    height: 70
+  }
 });

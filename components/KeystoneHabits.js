@@ -24,6 +24,8 @@ export default function KeystoneHabits() {
   const [readingItems, setReadingItems] = useState([])
   const [totalReadingTime, setTotalReadingTime] = useState(0)
   const [totalMeditationtime, setTotalMeditationTime] = useState(0)
+  const [avgReading, setAvgReading] = useState(0)
+  const [avgMeditating, setAvgMeditating] = useState(0)
 
 
   let monthtime = new Date().toISOString().slice(0, 10)
@@ -50,7 +52,6 @@ export default function KeystoneHabits() {
 
 
   useEffect(() => {
-
     const meditationRef = ref(db, `meditation/${auth.currentUser.uid}`)
     onValue(meditationRef, (snapshot) => {
       const data = snapshot.val();
@@ -68,15 +69,31 @@ export default function KeystoneHabits() {
         getReadingSum(Object.values(data))
       }
     })
-
   }, []);
 
   const getReadingSum = (data) => {
-    setTotalReadingTime((data.reduce((a, b) => a = a + parseInt(b.reading_duration), 0)))
+    const func = (data.reduce((a, b) => a = a + parseInt(b.reading_duration), 0))
+    getAvgReading(func)
+    setTotalReadingTime(func)
   }
 
   const getMeditationSum = (data) => {
-    setTotalMeditationTime((data.reduce((a, b) => a = a + parseInt(b.meditation_duration), 0 )))
+    const func = (data.reduce((a, b) => a = a + parseInt(b.meditation_duration), 0))
+    getAvgMeditating(func)
+    setTotalMeditationTime(func)
+  }
+
+  
+
+  const getAvgReading = (data) => {
+    const func = (data / readingItems.length).toFixed(0)
+    setAvgReading(func)
+    console.log(data)
+  }
+  console.log(avgReading)
+
+  const getAvgMeditating = (data) => {
+    setAvgMeditating((data / readingItems.length).toFixed(0))
   }
 
 
@@ -84,6 +101,10 @@ export default function KeystoneHabits() {
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Text style={styles.text}>Total minutes of reading {totalReadingTime}</Text>
       <Text style={styles.text}>Total minutes of meditation: {totalMeditationtime} </Text>
+      <Text style={styles.text}>Average duration of reading: {avgReading}</Text>
+      <Text style={styles.text}>Average duration of meditating: {avgMeditating} </Text>
+
+
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Set reading duration"
@@ -110,6 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    marginTop: 200
   },
   inputContainer: {
     marginTop: 400,
@@ -125,10 +147,6 @@ const styles = StyleSheet.create({
     marginTop: 47,
     flexDirection: "row",
     alignItems: "center"
-  },
-  text: {
-    marginTop: 60,
-    marginBottom: 10
   },
   list: {
     fontWeight: "bold"

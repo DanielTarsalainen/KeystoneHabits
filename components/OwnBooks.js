@@ -14,6 +14,7 @@ import {
 import { auth, db } from "../Firebase";
 import { getDatabase, push, ref, onValue, query } from "firebase/database";
 import OwnItem, { Separator } from "./OwnItem";
+import { ListItem, Avatar } from 'react-native-elements'
 
 export default function OwnBooks({navigation}) {
     
@@ -63,7 +64,8 @@ export default function OwnBooks({navigation}) {
                 alert("Book added to 'read books' list ")
             })
         });
-    }
+  }
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,10 +73,11 @@ export default function OwnBooks({navigation}) {
         data={items}
         keyExtractor={(item) => item.bookId}
         renderItem={({ item }) => (
+          <ListItem bottomDivider>
             <OwnItem {...item} onRightPress={() => removeItem(item.bookId)}
-            onSwipeFromLeft={() => markAsRead(item.bookId)}/>
+              onSwipeFromLeft={() => markAsRead(item.bookId)} />
+         </ListItem>
         )}
-        ItemSeparatorComponent={() => <Separator />}
           />
         <Button onPress={() => navigation.navigate('Finished books')} title="View books that you have read"> </Button>
     </SafeAreaView>
