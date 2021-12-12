@@ -32,7 +32,7 @@ export default function OwnBooks({navigation}) {
           setItems(Object.values(snapshot.val()));
         }
       });
-  }, []);
+  }, [items]);
 
   const removeItem = (bookId) => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);
@@ -43,7 +43,6 @@ export default function OwnBooks({navigation}) {
         snapshot.forEach(function (data) {
           ref.child(data.key).remove();
           deleteItemById(bookId);
-          console.log("removed succesfully");
         });
       });
   };
@@ -51,6 +50,13 @@ export default function OwnBooks({navigation}) {
   const deleteItemById = (bookId) => {
     const filteredData = items.filter((item) => item.bookId !== bookId);
     setItems(filteredData);
+     alert("Book was removed succesfully")
+  };
+  
+  const markAsReadById = (bookId) => {
+    const filteredData = items.filter((item) => item.bookId !== bookId);
+    setItems(filteredData);
+     alert("Book added to 'read books' list ")
     };
     
     const markAsRead = (item) => {
@@ -60,8 +66,8 @@ export default function OwnBooks({navigation}) {
                 ref.child(data.key).update({
                     'isRead':true
                 })
-                deleteItemById(item)
-                alert("Book added to 'read books' list ")
+                markAsReadById(item)
+               
             })
         });
   }
@@ -79,7 +85,6 @@ export default function OwnBooks({navigation}) {
          </ListItem>
         )}
           />
-        <Button onPress={() => navigation.navigate('Finished books')} title="View books that you have read"> </Button>
     </SafeAreaView>
   );
 }

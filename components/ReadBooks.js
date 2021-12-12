@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   TextInput,
   FlatList,
   StatusBar,
@@ -13,11 +12,10 @@ import {
 } from "react-native";
 import { auth, db } from "../Firebase";
 import { getDatabase, push, ref, onValue, query } from "firebase/database";
+import { ListItem, Avatar, Icon, Button } from "react-native-elements";
 
 const ReadBooks = () => {
   const [items, setItems] = useState([]);
-
-  console.log(items);
 
   useEffect(() => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);
@@ -29,34 +27,53 @@ const ReadBooks = () => {
           setItems(Object.values(snapshot.val()));
         }
       });
-  }, []);
+  }, [items]);
+
+  const removeItem = (bookId) => {
+    var ref = db.ref(`books/${auth.currentUser.uid}`);
+    ref
+      .orderByChild("bookId")
+      .equalTo(bookId)
+      .on("value", function (snapshot) {
+        snapshot.forEach(function (data) {
+          ref.child(data.key).remove();
+          deleteItemById(bookId);
+        });
+      });
+  };
+
+  const deleteItemById = (bookId) => {
+    const filteredData = items.filter((item) => item.bookId !== bookId);
+    setItems(filteredData);
+    alert("Book removed succesfully")
+  };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={items}
-        keyExtractor={(item) => item.bookId}
-        renderItem={({ item }) => (
-            <View>
-                <Text>{item.author}</Text>
-                <Text>{item.title}</Text>
-            {item.picture != null ? (
-              <Image
-                source={{ uri: item.picture }}
-                style={{ width: 100, height: 100 }}
-              />
-            ) : (
-              <Image
-                source={{
-                  uri: "https://cdn.pixabay.com/photo/2016/09/10/17/18/book-1659717_1280.jpg",
-                }}
-                style={{ width: 100, height: 100 }}
-              />
-            )}
-          </View>
-        )}
-      />
-    </SafeAreaView>
+    <View>
+      {items.map((item, i) => (
+        <ListItem.Swipeable
+          key={i}
+          bottomDivider
+          rightContent={
+            <Button
+              title="Delete"
+              icon={{ name: "delete", color: "white" }}
+              buttonStyle={{ minHeight: "100%", backgroundColor: "red" }}
+              onPress={() => {removeItem(item.bookId)}}
+            />
+          }
+        >
+          <Avatar size="large" source={{ uri: item.picture }} />
+          <ListItem.Content>
+            <ListItem.Title>{item.title}</ListItem.Title>
+            <ListItem.Subtitle>{item.author}</ListItem.Subtitle>
+            <Image source={{ uri: item.picture }} style={styles.image} />
+          </ListItem.Content>
+
+          <ListItem.Chevron />
+        </ListItem.Swipeable>
+      ))}
+    </View>
   );
 };
 

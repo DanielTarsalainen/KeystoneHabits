@@ -9,17 +9,18 @@ import {
   FlatList,
   StatusBar,
   Image,
-  SafeAreaView,
+  SafeAreaView
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { userId } from "./Homepage";
 import { auth, db } from "../Firebase";
-import { getDatabase, push, ref, onValue } from "firebase/database";
+import { getDatabase, push, ref, onValue, get } from "firebase/database";
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Setting a timer"]);
 import Item, { Separator } from "./Item";
-import { ListItem, Avatar, SearchBar } from "react-native-elements";
+import { ListItem, Avatar, SearchBar, Icon } from "react-native-elements";
+import { color } from "react-native-elements/dist/helpers";
 
 export default function Books({ navigation }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,7 +32,7 @@ export default function Books({ navigation }) {
 
     query.once('value', function (snapshot) {
       if (snapshot.exists()) {
-        Alert.alert("Book already exists!")
+        Alert.alert("You already have this book!")
       } else {
         saveBook(item)
       }
@@ -42,33 +43,51 @@ export default function Books({ navigation }) {
     push(ref(db, `books/${auth.currentUser.uid}`), {
       'author': item.volumeInfo.authors ? item.volumeInfo.authors[0] : null, 'title': item.volumeInfo.title ? item.volumeInfo.title : null, 'picture': item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : null , 'isRead': false, 'bookId': item.id, 'userid': auth.currentUser.uid
     });
-    Alert.alert("Book was added succesfully!")
     deleteItemById(item.id)
   }
 
   const deleteItemById = (id) => {
     const filteredData = books.filter((item) => item.id !== id);
     setBooks(filteredData);
+     Alert.alert("Book was added succesfully!")
   };
 
-  const getBooks = () => {
-    console.log(searchTerm);
+  const getBooks = (text) => {
+    setSearchTerm(text)
     fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=AIzaSyD0JSSkprb0aJy9r-csuF7aWT3k7Jyhop8`
+      `https://www.googleapis.com/books/v1/volumes?q=${text}&key=AIzaSyD0JSSkprb0aJy9r-csuF7aWT3k7Jyhop8`
     )
       .then((reponse) => reponse.json())
       .then((responseJson) => setBooks(responseJson.items))
       .catch((error) => {
         Alert.alert("Error", error);
-      });
+      });  
   };
 
   useEffect(() => {
     setBooks([]);
   }, [!searchTerm]);
 
+
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.input}>
+        <SearchBar
+          round
+          searchIcon={{ size: 24 }}
+          onChangeText={(text) => getBooks(text)}
+          placeholder="Search an interesting book..."
+          value={searchTerm}
+          inputStyle={{backgroundColor: 'white'}}
+          containerStyle={{backgroundColor: 'white', borderWidth: 1, borderRadius: 1}}
+          inputContainerStyle={{backgroundColor: 'white'}}
+          placeholder={'Type text here'}
+        
+        />
+      </View>
+      <View style={styles.menu}>
+        <Icon reverse name='menu-outline' type='ionicon' color='#517fa4' onPress={() => navigation.toggleDrawer()} />
+      </View>
       <FlatList
         data={books}
         keyExtractor={(item) => item.id}
@@ -82,18 +101,10 @@ export default function Books({ navigation }) {
           </ListItem>
         )}
       />
-      <TextInput
-        style={{ fontSize: 18, width: 200 }}
-        placeholder="keyword"
-        onChangeText={(text) => setSearchTerm(text)}
-      />
+
       <View style={styles.buttons}>
-        <Button title="Search books" onPress={getBooks}></Button>
-        <Button
-          onPress={() => navigation.navigate("Bookshelf")}
-          title="OwnBooks"
-        />
       </View>
+            
     </SafeAreaView>
   );
 }
@@ -119,4 +130,14 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
   },
+  input: {
+    marginTop: 50,
+    width: "80%",
+    alignSelf: "stretch",
+    marginLeft: 10
+  },
+  menu: {
+    alignSelf: 'flex-end',
+    marginTop: -65
+  }
 });

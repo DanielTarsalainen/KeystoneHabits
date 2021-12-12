@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './Homepage';
 import Books from './Books';
 import KeystoneHabits from './KeystoneHabits'
-import BooksNav from './BooksNav'
+import DrawerNav from './DrawerNav'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 // import LoginNav from './navigations/LoginNav'
 
@@ -32,7 +32,7 @@ const MainNav = () => {
           },
         })}>
         <Tab.Screen options={{headerShown: true}} name="Stoic wisdom" component={HomePage} />
-        <Tab.Screen options={{headerShown: false}} name="Books page" component={BooksNav} />
+        <Tab.Screen options={{headerShown: false}} name="Books page" component={DrawerNav} />
         <Tab.Screen options={{headerShown: false}} name="KeystoneHabits" component={KeystoneHabits}/>
       </Tab.Navigator>
     )
