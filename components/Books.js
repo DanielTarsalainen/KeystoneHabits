@@ -60,12 +60,6 @@ export default function Books({ navigation }) {
       });  
   };
 
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => console.log(`I can see you're not typing. I can use "${searchTerm}" now!`), 1000);
-  //   return () => clearTimeout(timeoutId);
-  // }, [searchTerm]);
-
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.input}>
@@ -128,11 +122,11 @@ const styles = StyleSheet.create({
     marginTop: 50,
     width: "80%",
     alignSelf: "flex-end",
-    marginRight: 10
+    marginRight: 20
   },
   menu: {
     alignSelf: 'flex-start',
     marginTop: -50,
-    paddingLeft: 20
+    paddingLeft: 14
   }
 });

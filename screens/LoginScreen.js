@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/core";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -17,6 +17,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState()
+  const isMountedRef = useRef(null)
 
   const navigation = useNavigation();
 
@@ -28,6 +29,11 @@ const LoginScreen = () => {
     return unsubscribe;
   });
   
+useEffect(() => {
+  isMountedRef.current = true;               // set true when mounted
+  return () => isMountedRef.current = false; // clear when unmounted
+}, []);
+
 
 useEffect(() => {
   const timer = setTimeout(() => {
@@ -35,6 +41,8 @@ useEffect(() => {
   });
   return () => {
     clearTimeout(timer);
+    setEmail("")
+    setPassword("")
   }
 }, []);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Time } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Alert,
   StyleSheet,
@@ -15,18 +15,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { auth } from "../Firebase";
-import { NavigationContainer } from "@react-navigation/native";
-import { useNavigation } from "@react-navigation/core";
+
 
 export default function Homepage({navigation}) {
+  const { theme } = useTheme();
   const Tab = createBottomTabNavigator();
   const [quoteData, setQuoteData] = useState([]);
   const [photoData, setPhotoData] = useState("");
   const [counter, setCounter] = useState(1);
-  const { theme } = useTheme();
   let dayOfMonth = new Date().toISOString().slice(0, 10);
   const [visible, setVisible] = useState(false);
+  const isMountedVal = useRef(1)
 
 
   const toggleOverlay = () => {
@@ -92,12 +91,16 @@ export default function Homepage({navigation}) {
       const parsedInitialDate = Date.parse(dayOfMonth);
 
       if (parsedSavedDate == parsedInitialDate) {
-        getQuoteStorage();
-        getPhotoStorage();
+        setTimeout(() => {
+          getQuoteStorage();
+          getPhotoStorage()
+          }, 500);
       } else if (!savedDate || parsedSavedDate < parsedInitialDate) {
-        storeDateData(dayOfMonth);
-        getQuoteData();
-        getPhotoData();
+        setTimeout(() => {
+          storeDateData(dayOfMonth);
+          getQuoteData();
+          getPhotoData();
+        }, 500)
       }
     } catch (e) {
       return e;
@@ -143,12 +146,17 @@ export default function Homepage({navigation}) {
   };
 
   const incrementCounter = () => setCounter(counter + 1);
+  
+
   useEffect(() => {
     getData();
     return () => {
       setQuoteData([]);
       setPhotoData("");
-      setVisible()
+      setVisible(null)
+      dayOfMonth = null
+      setCounter(null)
+
     };
   }, []);
 
@@ -165,7 +173,7 @@ export default function Homepage({navigation}) {
         </Text>
       </Overlay>
       <View style={styles.content}>
-      <Text style={styles.text} h4 h4Style={{ color: theme?.colors?.primary }}>
+      <Text style={styles.text} h4 h4Style={{ color: theme?.colors?.black }}>
         Here's a daily dose of Stoic wisdom for you:
       </Text>
         <Card>
@@ -226,7 +234,7 @@ const styles = StyleSheet.create({
   sandwich: {
   top: 30,
   right: 10,
-    alignSelf: 'flex-end',
+  alignSelf: 'flex-end',
   position: "absolute"
   }
 });
