@@ -9,6 +9,8 @@ import KeystoneHabits from './KeystoneHabits'
 import DrawerNav from './DrawerNav'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 // import LoginNav from './navigations/LoginNav'
+import MainDrawerNav from './MainDrawerNav'
+
 
 
 
@@ -31,7 +33,7 @@ const MainNav = () => {
             return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
           },
         })}>
-        <Tab.Screen options={{headerShown: true}} name="Stoic wisdom" component={HomePage} />
+        <Tab.Screen options={{headerShown: false}} name="Stoic wisdom" component={MainDrawerNav} />
         <Tab.Screen options={{headerShown: false}} name="Books page" component={DrawerNav} />
         <Tab.Screen options={{headerShown: false}} name="KeystoneHabits" component={KeystoneHabits}/>
       </Tab.Navigator>

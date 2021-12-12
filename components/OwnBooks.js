@@ -60,7 +60,7 @@ export default function OwnBooks({navigation}) {
   const markAsReadById = (bookId) => {
     const filteredData = items.filter((item) => item.bookId !== bookId);
     setItems(filteredData);
-     alert("Book added to 'read books' list ")
+     alert("Book added to 'Currently reading' list ")
     };
     
     const markAsRead = (item) => {

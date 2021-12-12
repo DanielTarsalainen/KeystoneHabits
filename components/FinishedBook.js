@@ -10,21 +10,6 @@ import {
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { ListItem, Avatar } from 'react-native-elements'
 
-const LeftActions = (progress, dragX) => {
-  const scale = dragX.interpolate({
-    inputRange: [0, 100],
-    outputRange: [0, 1],
-    extrapolate: 'clamp',
-  });
-  return (
-    <View style={styles.leftAction}>
-      <Animated.Text style={[styles.actionText, { transform: [{ scale }] }]}>
-        Mark as read
-      </Animated.Text>
-    </View>
-  );
-};
-
 const RightActions = ({ progress, dragX, onPress }) => {
   const scale = dragX.interpolate({
     inputRange: [-100, 0],
@@ -42,10 +27,8 @@ const RightActions = ({ progress, dragX, onPress }) => {
   );
 };
 
-const OwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) => (
+const FinishedBook = ({ author, picture, title, onRightPress }) => (
   <Swipeable
-    renderLeftActions={LeftActions}
-    onSwipeableLeftOpen={onSwipeFromLeft}
     renderRightActions={(progress, dragX) => (
       <RightActions progress={progress} dragX={dragX} onPress={onRightPress} />
     )}
@@ -66,9 +49,7 @@ const OwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) => (
   </Swipeable>
 );
 
-
-
-export default OwnItem
+export default FinishedBook
 
 const styles = StyleSheet.create({
   container: {

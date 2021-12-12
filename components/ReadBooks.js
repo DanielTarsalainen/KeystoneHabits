@@ -14,6 +14,8 @@ import {
 import { auth, db } from "../Firebase";
 import { getDatabase, push, ref, onValue, query } from "firebase/database";
 import { ListItem, Avatar, Icon, Button } from "react-native-elements";
+import FinishedBook, { Separator } from "./FinishedBook";
+
 
 const ReadBooks = ({navigation}) => {
   const [items, setItems] = useState([]);
@@ -55,34 +57,18 @@ const ReadBooks = ({navigation}) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{flexGrow: 0}} style={{ backgroundColor: "white", paddingRight: 54}} >
-
-      {items.map((item, i) => (
-        <View>
-        <ListItem.Swipeable 
-          key={i}
-            bottomDivider
-          rightContent={
-            <Button
-              title="Delete"
-              icon={{ name: "delete", color: "white" }}
-              buttonStyle={{ minHeight: "100%", backgroundColor: "red", marginLeft: 20 }}
-              onLongPress={() => { removeItem(item.bookId) }}
-            />
-          }
-        >
-          <Avatar size="large" source={{ uri: item.picture }} />
-          <ListItem.Content>
-            <ListItem.Title>{item.title}</ListItem.Title>
-            <ListItem.Subtitle>{item.author}</ListItem.Subtitle>
-            <Image source={{ uri: item.picture }} style={styles.image} />
-          </ListItem.Content>
-
-          <ListItem.Chevron />
-          </ListItem.Swipeable>
-          </View>
-      ))}
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={items}
+        keyExtractor={(item) => item.bookId}
+        renderItem={({ item }) => (
+          <ListItem bottomDivider>
+            <FinishedBook {...item} onRightPress={() => removeItem(item.bookId)}
+              />
+         </ListItem>
+        )}
+          />
+    </SafeAreaView>
 );
 }
 

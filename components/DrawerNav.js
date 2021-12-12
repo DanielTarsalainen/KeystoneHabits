@@ -14,8 +14,8 @@ const DrawerNav = () => {
   return (
     <Drawer.Navigator initialRouteName="Home">
       <Drawer.Screen options={{headerShown: false}} name="Books" component={Books} />
-      <Drawer.Screen name="Own books" component={OwnBooks} />
-      <Drawer.Screen name="Read books" component={ReadBooks} />
+      <Drawer.Screen name="Reading currently" component={OwnBooks} />
+      <Drawer.Screen name="Finished books" component={ReadBooks} />
     </Drawer.Navigator>
   );
 };

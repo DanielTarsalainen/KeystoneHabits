@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   Animated,
-  TouchableOpacity,
   Image
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -53,8 +52,8 @@ export default Item
 const styles = StyleSheet.create({
    container: {
     backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    paddingVertical: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 5,
     width: 300
   },
   text: {

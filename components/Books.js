@@ -11,16 +11,12 @@ import {
   Image,
   SafeAreaView
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import Swipeable from "react-native-gesture-handler/Swipeable";
-import { userId } from "./Homepage";
 import { auth, db } from "../Firebase";
 import { getDatabase, push, ref, onValue, get } from "firebase/database";
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Setting a timer"]);
 import Item, { Separator } from "./Item";
 import { ListItem, Avatar, SearchBar, Icon } from "react-native-elements";
-import { color } from "react-native-elements/dist/helpers";
 
 export default function Books({ navigation }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -64,12 +60,10 @@ export default function Books({ navigation }) {
       });  
   };
 
- 
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => console.log(`I can see you're not typing. I can use "${searchTerm}" now!`), 1000);
-    return () => clearTimeout(timeoutId);
-  }, [searchTerm]);
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => console.log(`I can see you're not typing. I can use "${searchTerm}" now!`), 1000);
+  //   return () => clearTimeout(timeoutId);
+  // }, [searchTerm]);
 
 
   return (
@@ -82,14 +76,14 @@ export default function Books({ navigation }) {
           placeholder="Search an interesting book..."
           value={searchTerm}
           inputStyle={{backgroundColor: 'white'}}
-          containerStyle={{backgroundColor: 'white', borderWidth: 1, borderRadius: 1}}
+          containerStyle={{backgroundColor: 'white', borderWidth: 1, borderRadius: 20}}
           inputContainerStyle={{backgroundColor: 'white'}}
-          placeholder={'Type text here'}
+          placeholder={'Get books from Google books'}
         
         />
       </View>
       <View style={styles.menu}>
-        <Icon reverse name='menu-outline' type='ionicon' color='#517fa4' onPress={() => navigation.toggleDrawer()} />
+         <Icon name='menu' type='feather' color='#517fa4' size={34} onPress={() => navigation.toggleDrawer()}/>
       </View>
       <FlatList
         data={books}
@@ -104,10 +98,8 @@ export default function Books({ navigation }) {
           </ListItem>
         )}
       />
-
       <View style={styles.buttons}>
       </View>
-            
     </SafeAreaView>
   );
 }
@@ -118,7 +110,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
   },
   leftAction: {
     backgroundColor: "#388e3c",
@@ -136,11 +127,12 @@ const styles = StyleSheet.create({
   input: {
     marginTop: 50,
     width: "80%",
-    alignSelf: "stretch",
-    marginLeft: 10
+    alignSelf: "flex-end",
+    marginRight: 10
   },
   menu: {
-    alignSelf: 'flex-end',
-    marginTop: -65
+    alignSelf: 'flex-start',
+    marginTop: -50,
+    paddingLeft: 20
   }
 });
