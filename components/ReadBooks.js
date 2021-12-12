@@ -9,16 +9,18 @@ import {
   StatusBar,
   Image,
   SafeAreaView,
+  ScrollView
 } from "react-native";
 import { auth, db } from "../Firebase";
 import { getDatabase, push, ref, onValue, query } from "firebase/database";
 import { ListItem, Avatar, Icon, Button } from "react-native-elements";
 
-const ReadBooks = () => {
+const ReadBooks = ({navigation}) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    var ref = db.ref(`books/${auth.currentUser.uid}`);
+    const refresh = navigation.addListener("focus", () => {
+       var ref = db.ref(`books/${auth.currentUser.uid}`);
     ref
       .orderByChild("isRead")
       .equalTo(true)
@@ -27,7 +29,11 @@ const ReadBooks = () => {
           setItems(Object.values(snapshot.val()));
         }
       });
-  }, [items]);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return refresh;
+  }, [navigation]);
 
   const removeItem = (bookId) => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);
@@ -45,21 +51,23 @@ const ReadBooks = () => {
   const deleteItemById = (bookId) => {
     const filteredData = items.filter((item) => item.bookId !== bookId);
     setItems(filteredData);
-    alert("Book removed succesfully")
+    alert("Book removed succesfully");
   };
 
   return (
-    <View>
+    <ScrollView contentContainerStyle={{flexGrow: 0}} style={{ backgroundColor: "white", paddingRight: 54}} >
+
       {items.map((item, i) => (
-        <ListItem.Swipeable
+        <View>
+        <ListItem.Swipeable 
           key={i}
-          bottomDivider
+            bottomDivider
           rightContent={
             <Button
               title="Delete"
               icon={{ name: "delete", color: "white" }}
-              buttonStyle={{ minHeight: "100%", backgroundColor: "red" }}
-              onPress={() => {removeItem(item.bookId)}}
+              buttonStyle={{ minHeight: "100%", backgroundColor: "red", marginLeft: 20 }}
+              onLongPress={() => { removeItem(item.bookId) }}
             />
           }
         >
@@ -71,11 +79,12 @@ const ReadBooks = () => {
           </ListItem.Content>
 
           <ListItem.Chevron />
-        </ListItem.Swipeable>
+          </ListItem.Swipeable>
+          </View>
       ))}
-    </View>
-  );
-};
+    </ScrollView>
+);
+}
 
 export default ReadBooks;
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Alert,
   StyleSheet,
@@ -20,10 +20,9 @@ export default function OwnBooks({navigation}) {
     
   const [items, setItems] = useState([]);
 
-  console.log(items)
-
   useEffect(() => {
-    var ref = db.ref(`books/${auth.currentUser.uid}`);
+    const refresh = navigation.addListener('focus', () => {
+       var ref = db.ref(`books/${auth.currentUser.uid}`);
     ref
       .orderByChild("isRead")
       .equalTo(false)
@@ -32,7 +31,12 @@ export default function OwnBooks({navigation}) {
           setItems(Object.values(snapshot.val()));
         }
       });
-  }, [items]);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return refresh;
+  }, [navigation]);
+
 
   const removeItem = (bookId) => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);

@@ -52,7 +52,7 @@ export default function Books({ navigation }) {
      Alert.alert("Book was added succesfully!")
   };
 
-  const getBooks = (text) => {
+  const getBooks = (text) => {  
     setSearchTerm(text)
     fetch(
       `https://www.googleapis.com/books/v1/volumes?q=${text}&key=AIzaSyD0JSSkprb0aJy9r-csuF7aWT3k7Jyhop8`
@@ -64,15 +64,18 @@ export default function Books({ navigation }) {
       });  
   };
 
+ 
+
   useEffect(() => {
-    setBooks([]);
-  }, [!searchTerm]);
+    const timeoutId = setTimeout(() => console.log(`I can see you're not typing. I can use "${searchTerm}" now!`), 1000);
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
 
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.input}>
-        <SearchBar
+       <SearchBar
           round
           searchIcon={{ size: 24 }}
           onChangeText={(text) => getBooks(text)}
