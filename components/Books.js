@@ -24,29 +24,27 @@ import { ListItem, Avatar, SearchBar } from "react-native-elements";
 export default function Books({ navigation }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
-  const [error, setError] = useState("");
+  
+  const checkBook = (item) => {
+    var ref = db.ref(`books/${auth.currentUser.uid}/`)
+    var query = ref.orderByChild("bookId").equalTo(item.id)
 
-  const saveItem = (item) => {
-     let isTrue = false;
-
-     var bookRef = db.ref(`books/${auth.currentUser.uid}`);
-    bookRef.orderByChild("bookId").equalTo(item.id).on("value", function (snapshot) {
+    query.once('value', function (snapshot) {
       if (snapshot.exists()) {
-        isTrue = true
+        Alert.alert("Book already exists!")
+      } else {
+        saveBook(item)
       }
-    })
-     console.log(isTrue)
-
-     if (isTrue == false) {
-     push(ref(db, `books/${auth.currentUser.uid}`), {
+    });
+  }
+  
+  const saveBook = (item) => {
+    push(ref(db, `books/${auth.currentUser.uid}`), {
       'author': item.volumeInfo.authors ? item.volumeInfo.authors[0] : null, 'title': item.volumeInfo.title ? item.volumeInfo.title : null, 'picture': item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : null , 'isRead': false, 'bookId': item.id, 'userid': auth.currentUser.uid
     });
+    Alert.alert("Book was added succesfully!")
     deleteItemById(item.id)
-     alert("Book " + item.volumeInfo.title + ' added succesfully')
-     } else {
-       alert("You already have this book")
-     }
-     }
+  }
 
   const deleteItemById = (id) => {
     const filteredData = books.filter((item) => item.id !== id);
@@ -79,7 +77,7 @@ export default function Books({ navigation }) {
             <Item
               style={styles.item}
               {...item}
-              onSwipeFromLeft={() => saveItem(item)}
+              onSwipeFromLeft={() => checkBook(item)}
             />
           </ListItem>
         )}

@@ -1,4 +1,7 @@
 // Import the functions you need from the SDKs you need
+
+window.addEventListener = (x) => x;
+
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/database';
@@ -10,6 +13,8 @@ import 'firebase/compat/database';
 // Your web app's Firebase configuration
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAXFjbAC1UEKqEoqV7zfcMh8lIDjkEThFc",
