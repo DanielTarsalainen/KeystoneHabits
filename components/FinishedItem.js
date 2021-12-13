@@ -27,7 +27,7 @@ const RightActions = ({ progress, dragX, onPress }) => {
   );
 };
 
-const FinishedBook = ({ author, picture, title, onRightPress }) => (
+const FinishedItem = ({ author, picture, title, onRightPress }) => (
   <Swipeable
     renderRightActions={(progress, dragX) => (
       <RightActions progress={progress} dragX={dragX} onPress={onRightPress} />
@@ -49,7 +49,7 @@ const FinishedBook = ({ author, picture, title, onRightPress }) => (
   </Swipeable>
 );
 
-export default FinishedBook
+export default FinishedItem
 
 const styles = StyleSheet.create({
   container: {

@@ -14,7 +14,7 @@ import {
 import { auth, db } from "../Firebase";
 import { getDatabase, push, ref, onValue, query } from "firebase/database";
 import { ListItem, Avatar, Icon, Button } from "react-native-elements";
-import FinishedBook, { Separator } from "./FinishedBook";
+import FinishedItem, { Separator } from "./FinishedItem";
 
 
 const ReadBooks = ({navigation}) => {
@@ -63,7 +63,7 @@ const ReadBooks = ({navigation}) => {
         keyExtractor={(item) => item.bookId}
         renderItem={({ item }) => (
           <ListItem bottomDivider>
-            <FinishedBook {...item} onRightPress={() => removeItem(item.bookId)}
+            <FinishedItem {...item} onRightPress={() => removeItem(item.bookId)}
               />
          </ListItem>
         )}

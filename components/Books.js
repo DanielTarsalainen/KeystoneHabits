@@ -72,9 +72,7 @@ export default function Books({ navigation }) {
           value={searchTerm}
           inputStyle={{backgroundColor: 'white'}}
           containerStyle={{backgroundColor: 'white', borderWidth: 1, borderRadius: 20}}
-          inputContainerStyle={{backgroundColor: 'white'}}
-          placeholder={'Get books from Google books'}
-        
+          inputContainerStyle={{backgroundColor: 'white'}}        
         />
       </View>
       <View style={styles.menu}>

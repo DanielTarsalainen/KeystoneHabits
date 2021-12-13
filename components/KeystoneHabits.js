@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, createRef } from "react";
 import {
   Alert,
   StyleSheet,
   Text,
   View,
-  Button,
   TextInput,
   FlatList,
   StatusBar,
@@ -21,50 +20,60 @@ import {
   query,
   connectDatabaseEmulator,
 } from "firebase/database";
-import { ListItem, Avatar, SearchBar, Icon, PricingCard } from "react-native-elements";
-import Tracker from "./Tracker";
+import {
+  ListItem,
+  Avatar,
+  SearchBar,
+  Icon,
+  PricingCard,
+  Input,
+  Button,
+  ThemeProvider
+} from "react-native-elements";
+import ReadingInfo from "./ReadingInfo";
 
-
-
-export default function KeystoneHabits() {
+export default function KeystoneHabits({navigation}) {
   const [timeRead, setTimeRead] = useState("");
   const [timeMeditated, setTimemeditated] = useState("");
   const [meditationItems, setMeditationItems] = useState([]);
   const [readingItems, setReadingItems] = useState([]);
   const [totalReadingTime, setTotalReadingTime] = useState(0);
   const [totalMeditationtime, setTotalMeditationTime] = useState(0);
+  const isMountedRef = useRef(1);
+  const inputRef = createRef();
 
   let monthtime = new Date().toISOString().slice(0, 10);
 
   const saveReadingTime = () => {
-    let clocktime = new Date().toLocaleTimeString().slice(0, 5);
+    inputRef.current.clear();
+    let clocktime = new Date().toLocaleTimeString().slice(0, 8);
 
-    if (!isNaN(+timeMeditated)) {
-    push(ref(db, `reading/${auth.currentUser.uid}`), {
-      reading_duration: timeRead,
-      date: monthtime + " " + clocktime,
-    }    
-    );
+    if (!isNaN(+timeRead) && timeRead.length > 0) {
+      push(ref(db, `reading/${auth.currentUser.uid}`), {
+        reading_duration: timeRead,
+        date: monthtime + " at " + clocktime,
+      });
       console.log("added succesfully");
-      }
+    }
   };
 
   const saveMeditationTime = () => {
-    let clocktime = new Date().toLocaleTimeString().slice(0, 5);
+    inputRef.current.clear();
+    let clocktime = new Date().toLocaleTimeString().slice(0, 8);
 
-    if (!isNaN(+timeMeditated)) {
+    if (!isNaN(+timeMeditated) && timeMeditated.length > 0) {
       push(ref(db, `meditation/${auth.currentUser.uid}`), {
         meditation_duration: timeMeditated,
-        date: monthtime + " " + clocktime,
+        date: monthtime + " at " + clocktime,
       });
       console.log("added succesfully");
     }
   };
 
   useEffect(() => {
-    setMeditationItems([])
-    setReadingItems([])
-    
+    setMeditationItems([]);
+    setReadingItems([]);
+
     const meditationRef = ref(db, `meditation/${auth.currentUser.uid}`);
     onValue(meditationRef, (snapshot) => {
       const data = snapshot.val();
@@ -82,6 +91,21 @@ export default function KeystoneHabits() {
         getReadingSum(Object.values(data));
       }
     });
+    // Clean up
+    return () => {
+      setReadingItems([]);
+      setMeditationItems([]);
+      setTimeRead("")
+      setTimemeditated("")
+      setTotalReadingTime(0)
+      setTotalMeditationTime(0)
+    };
+  }, []);
+
+  // Clean up 2
+    useEffect(() => {
+    isMountedRef.current = true; // set true when mounted
+      return () => (isMountedRef.current = false, inputRef.current = false); // clear when unmounted
   }, []);
 
   const getReadingSum = (data) => {
@@ -101,51 +125,78 @@ export default function KeystoneHabits() {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <View style={styles.cards}>
-     <PricingCard containerStyle={{margin: 1}}
-        color="#4f9deb"
-        title="Reading"
-        price={totalReadingTime}
-        info={["Minutes in total", `Or ${(totalReadingTime / 60).toFixed(2)} hours`, `Average duration: ${(totalReadingTime / readingItems.length).toFixed(0)} minutes`]}
-        button={{ title: "Track your progress", icon: "flight-takeoff" }}
-      />  
-      <PricingCard containerStyle={{margin: 1}}
-        color="#4f9deb"
-        title="Meditation"
-        price={totalMeditationtime}
-        info={["Minutes in total", `Or ${(totalMeditationtime / 60).toFixed(2)} hours`, `Average duration: ${(totalMeditationtime / meditationItems.length).toFixed(0)} minutes`] }
-        button={{ title: "Track your progress", icon: "flight-takeoff" }}
-        /> 
-      </View>  
-      
-      <View style={styles.container2}>
-        <View style={styles.container3}>
-         <TextInput
-          placeholder="Set reading duration"
-          value={timeRead}
-          onChangeText={(text) => setTimeRead(text)}
-          style={styles.input}
-      />
-          <Button onPress={saveReadingTime} title="Save reading time"></Button>
-        </View>
-      <View style={styles.container4}>
+        <PricingCard
+          containerStyle={{ margin: 1 }}
+          color="#4fdc6d"
+          title="Reading"
+          price={totalReadingTime}
+          info={[
+            "Minutes in total",
+            `Or ${(totalReadingTime / 60).toFixed(2)} hours`,
+            `Average duration: ${totalReadingTime
+              ? (totalReadingTime / readingItems.length).toFixed(0)
+              : 0
+            } minutes`,
+          ]}
+          button={{ title: "Track your progress", icon: "flight-takeoff" }}
+          onButtonPress={() => navigation.navigate('ReadingInfo')}
+        />
+        <PricingCard
+          containerStyle={{ margin: 1 }}
+          color="#4fdcba"
+          title="Meditation"
+          price={totalMeditationtime}
+          info={[
+            "Minutes in total",
+            `Or ${(totalMeditationtime / 60).toFixed(2)} hours`,
+            `Average duration: ${totalMeditationtime
+              ? (totalMeditationtime / meditationItems.length).toFixed(0)
+              : 0
+            } minutes`,
+          ]}
+          button={{ title: "Track your progress", icon: "flight-takeoff",  }}
+          onButtonPress={() => navigation.navigate('MeditationInfo')}
+        />
+      </View>
 
-        <TextInput
-          placeholder="Set meditation duration"
-          value={timeMeditated}
-          onChangeText={(text) => setTimemeditated(text)}
-          style={styles.input}
-          />
-        <Button
-          onPress={saveMeditationTime}
-          title="Save meditation time"
-          ></Button>
+      <View style={{ position: "absolute", bottom: 0 }}>
+        <View style={styles.container2}>
+          <View style={styles.container3}>
+            <TextInput
+              ref={inputRef}
+              placeholder="Set reading duration"
+              value={timeRead}
+              onChangeText={(text) => setTimeRead(text)}
+              style={styles.input}
+              placeholderTextColor={'black'}
+
+            />
+            <Button
+              icon={{ name: "save", size: 15, color: "white" }} onPress={saveReadingTime}
+              title="Save reading" buttonStyle={{borderRadius: 30, backgroundColor: "#4fdc6d", marginTop: 10}}
+            />
+
+
           </View>
+          <View style={styles.container4}>
+            <TextInput
+              ref={inputRef}
+              placeholder="Set meditation duration"
+              value={timeMeditated}
+              onChangeText={(text) => setTimemeditated(text)}
+              style={styles.input}
+              placeholderTextColor={'black'}
+            />
+            <Button 
+              icon={{ name: "save", size: 15, color: "white" }}
+              title="Save meditation" buttonStyle={{borderRadius: 30, backgroundColor: "#4fdcba", marginTop: 10}} onPress={saveMeditationTime}
+            />
+          </View>
+        </View>
       </View>
-      <Tracker/>
-       
-      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -157,20 +208,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cards: {
-    flexDirection: "row",
-  }, 
+    flexDirection: "column",
+    backfaceVisibility: "hidden",
+  },
   container2: {
     flexDirection: "row",
-    marginTop: 'auto',
+    marginTop: "auto",
   },
   container3: {
     flexDirection: "column",
-    marginHorizontal: 20
-
+    marginHorizontal: 10,
   },
   container4: {
     flexDirection: "column",
-    marginHorizontal: 20
+    marginHorizontal: 10,
+  },
+   input: {
+    backgroundColor: "#eef9f3",
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderRadius: 10,
+     marginTop: 14,
+    color: "black"
   }
-
+  
 });

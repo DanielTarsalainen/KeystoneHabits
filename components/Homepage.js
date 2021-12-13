@@ -32,9 +32,6 @@ export default function Homepage({navigation}) {
     setVisible(!visible);
   };
 
-  // Following logic (lines 18-85) represents the following call: "render a new quote and image automatically everyday"
-  // I Decided to use React Native Community's aSyncStorage
-
   const storeDateData = async (value) => {
     try {
       const toString = value.toString();
@@ -91,16 +88,13 @@ export default function Homepage({navigation}) {
       const parsedInitialDate = Date.parse(dayOfMonth);
 
       if (parsedSavedDate == parsedInitialDate) {
-        // setTimeout(() => {
           getQuoteStorage();
           getPhotoStorage()
           // }, 500);
       } else if (!savedDate || parsedSavedDate < parsedInitialDate) {
-        // setTimeout(() => {
           storeDateData(dayOfMonth);
           getQuoteData();
           getPhotoData();
-        // }, 500)
       }
     } catch (e) {
       return e;
@@ -164,24 +158,14 @@ export default function Homepage({navigation}) {
   // Clean up 2
   useEffect(() => {
   isMountedRef.current = true;               // set true when mounted
-  return () => isMountedRef.current = false; // clear when unmounted
+    return () =>
+      isMountedRef.current = false; // clear when unmounted
   }, []);
 
-  useEffect(() => {
-  window.addEventListener('mousemove', () => {});
-
-  // returned function will be called on component unmount 
-  return () => {
-    window.removeEventListener('mousemove', () => {})
-  }
-}, [])
   
-
-
-
   return (
     <View style={styles.container}>
-      <View style={styles.sandwich}>
+      <View style={styles.buttonContainer}>
         <TouchableOpacity hitSlop={{top: 30, bottom: 30, left: 50, right: 50}}>
           <Icon style={{position: "absolute"}} name='rightcircleo' type='antdesign' color='#517fa4' size={50} onPress={() => navigation.toggleDrawer
             ()} />
@@ -230,14 +214,6 @@ const styles = StyleSheet.create({
     paddingRight: 40,
     textAlign: "center",
   },
-  button: {
-    backgroundColor: "#0782F9",
-    width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-    marginBottom: 40,
-  },
   buttonOutLine: {
     backgroundColor: "white",
     marginTop: 5,
@@ -250,8 +226,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   }, 
-  sandwich: {
-  top: 30,
+  buttonContainer: {
+  top: 55,
   right: 10,
   alignSelf: 'flex-end',
   position: "absolute"

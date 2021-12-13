@@ -7,49 +7,48 @@ import {
   Text,
   View,
   TextInput,
+  ImageBackground,
   Image
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { auth } from "../Firebase";
-import loading from '/loppuprojekti_mobiili/keystonehabits/screens/loading.gif'
+import loading from "/loppuprojekti_mobiili/keystonehabits/screens/loading.gif";
+import keystonehabits from "/loppuprojekti_mobiili/keystonehabits/screens/keystonehabits.jpg";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isVisible, setIsVisible] = useState()
-  const isMountedRef = useRef(null)
+  const [isVisible, setIsVisible] = useState();
+  const isMountedRef = useRef(null);
 
   const navigation = useNavigation();
 
   const unsubscribe = auth.onAuthStateChanged((user) => {
     if (user) {
-      setIsVisible()
+      setIsVisible();
       navigation.replace("Homepage");
     }
     return unsubscribe;
   });
-  
-useEffect(() => {
-  isMountedRef.current = true;               // set true when mounted
-  return () => isMountedRef.current = false; // clear when unmounted
-}, []);
 
+  useEffect(() => {
+    isMountedRef.current = true; // set true when mounted
+    return () => (isMountedRef.current = false); // clear when unmounted
+  }, []);
 
-useEffect(() => {
-  const timer = setTimeout(() => {
-    setIsVisible(false);
-  });
-  return () => {
-    clearTimeout(timer);
-    setEmail("")
-    setPassword("")
-  }
-}, []);
-
-
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    });
+    return () => {
+      clearTimeout(timer);
+      setEmail("");
+      setPassword("");
+    };
+  }, []);
 
   const handleSignUp = () => {
-    setIsVisible(true)
+    setIsVisible(true);
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
@@ -57,11 +56,11 @@ useEffect(() => {
         console.log("Registered with", user.email);
         unsubscribe();
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => showSignUpAlert(error.message));
   };
 
   const handleLogin = () => {
-    setIsVisible(true)
+    setIsVisible(true);
     auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
@@ -69,21 +68,46 @@ useEffect(() => {
         console.log("Logged in with:", user.email);
         unsubscribe();
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => showLogInAlert(error.message));
   };
 
+  const showLogInAlert = (data) => {
+    alert(data);
+    setIsVisible(false);
+  };
 
-  
+  const showSignUpAlert = (data) => {
+    alert(data);
+    setIsVisible(false);
+  };
+
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled={false}>
       <View style={styles.inputContainer}>
+
+        <ImageBackground
+          source={keystonehabits}
+          style={{ width: "100%", height: "60%" }}
+        >
+          <View
+            style={{
+              position: "absolute",
+              top:38,
+              left: 0,
+              right: 0,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontWeight: "800", fontFamily: "monospace", fontSize: 27}}>KeystoneHabits</Text>
+          </View>
+        </ImageBackground>
         <TextInput
           placeholder="Email"
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
         />
-
         <TextInput
           placeholder="Password"
           value={password}
@@ -91,7 +115,7 @@ useEffect(() => {
           style={styles.input}
           secureTextEntry
         />
-        </View>
+      </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
@@ -104,13 +128,11 @@ useEffect(() => {
           <Text style={styles.buttonOutlineText}>Register</Text>
         </TouchableOpacity>
       </View>
-      { isVisible == true ?
-      <View>
-              <Image  style={styles.stretch} source={loading}/>
-
+      {isVisible == true ? (
+        <View>
+          <Image style={styles.stretch} source={loading} />
         </View>
-        : null
-      }
+      ) : null}
     </KeyboardAvoidingView>
   );
 };
@@ -119,26 +141,28 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 250,
-    justifyContent: "center",
     alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
   },
   inputContainer: {
-    marginTop: 140,
     width: "80%",
+    justifyContent: "flex-end",
   },
   input: {
     backgroundColor: "white",
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 14,
   },
   buttonContainer: {
     width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "space-between",
     marginTop: 40,
+    flexDirection: "row",
+    paddingRight: 30,
+    paddingLeft: 30
   },
   button: {
     backgroundColor: "#0782F9",
@@ -149,10 +173,10 @@ const styles = StyleSheet.create({
   },
   buttonOutLine: {
     backgroundColor: "white",
-    marginTop: 5,
     borderColor: "#0782F9",
     borderWidth: 2,
     borderRadius: 10,
+    padding: 13
   },
   buttonText: {
     color: "white",
@@ -167,6 +191,6 @@ const styles = StyleSheet.create({
   stretch: {
     marginTop: 80,
     width: 70,
-    height: 70
-  }
+    height: 70,
+  },
 });

@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './Homepage';
 import Books from './Books';
-import KeystoneHabits from './KeystoneHabits'
+import HabitsNav from './HabitsNav'
 import DrawerNav from './DrawerNav'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 // import LoginNav from './navigations/LoginNav'
@@ -26,7 +26,7 @@ const MainNav = () => {
               iconName = 'thought-bubble';
             } else if (route.name === 'Books page') {
               iconName = 'bookshelf';
-            } else if (route.name === 'KeystoneHabits') {
+            } else if (route.name === 'Habits') {
               iconName = 'meditation' 
             }
             
@@ -35,7 +35,7 @@ const MainNav = () => {
         })}>
         <Tab.Screen options={{headerShown: false}} name="Stoic wisdom" component={MainDrawerNav} />
         <Tab.Screen options={{headerShown: false}} name="Books page" component={DrawerNav} />
-        <Tab.Screen options={{headerShown: false}} name="KeystoneHabits" component={KeystoneHabits}/>
+        <Tab.Screen options={{headerShown: false}} name="Habits" component={HabitsNav}/>
       </Tab.Navigator>
     )
 }
