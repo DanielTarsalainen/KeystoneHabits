@@ -38,7 +38,7 @@ export default function Books({ navigation }) {
   
   const saveBook = (item) => {
     push(ref(db, `books/${auth.currentUser.uid}`), {
-      'author': item.volumeInfo.authors ? item.volumeInfo.authors[0] : null, 'title': item.volumeInfo.title ? item.volumeInfo.title : null, 'picture': item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : null , 'isRead': false, 'bookId': item.id, 'userid': auth.currentUser.uid
+      'author': item.volumeInfo.authors ? item.volumeInfo.authors[0] : null, 'title': item.volumeInfo.title ? item.volumeInfo.title : null, 'picture': item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : null, 'pages': item.volumeInfo.pageCount, 'isRead': false, 'bookId': item.id, 'userid': auth.currentUser.uid
     });
     deleteItemById(item.id)
   }
@@ -80,7 +80,7 @@ export default function Books({ navigation }) {
       <View style={styles.menu}>
          <Icon name='menu' type='feather' color='#517fa4' size={34} onPress={() => navigation.toggleDrawer()}/>
       </View>
-      <FlatList
+      <FlatList style={{marginTop: 20}}
         data={books}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (

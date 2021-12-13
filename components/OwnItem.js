@@ -42,7 +42,7 @@ const RightActions = ({ progress, dragX, onPress }) => {
   );
 };
 
-const OwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) => (
+const OwnItem = ({ author, picture, title, pages, onSwipeFromLeft, onRightPress }) => (
   <Swipeable
     renderLeftActions={LeftActions}
     onSwipeableLeftOpen={onSwipeFromLeft}
@@ -53,8 +53,10 @@ const OwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) => (
     <View style={styles.container}>
       <ListItem.Title>{title}</ListItem.Title>
       {author ? 
-      <ListItem.Subtitle>{author}</ListItem.Subtitle> : null
+      <ListItem.Subtitle>Author: {author}</ListItem.Subtitle> : null
       }
+      <ListItem.Subtitle>Number of pages: {pages}</ListItem.Subtitle>
+
       
             {picture ? (
               <Image
@@ -65,8 +67,6 @@ const OwnItem = ({ author, picture, title, onSwipeFromLeft, onRightPress }) => (
     </View>
   </Swipeable>
 );
-
-
 
 export default OwnItem
 

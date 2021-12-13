@@ -36,6 +36,7 @@ const Item = ({ volumeInfo, onSwipeFromLeft, onRightPress }) => (
       {volumeInfo.authors ? 
       <ListItem.Subtitle>{volumeInfo.authors[0]}</ListItem.Subtitle> : null
       }
+      <ListItem.Subtitle>Number of pages: {volumeInfo.pageCount}</ListItem.Subtitle>
       
             {volumeInfo.imageLinks ? (
               <Image
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
    container: {
     backgroundColor: '#fff',
     paddingHorizontal: 14,
-    paddingVertical: 5,
+    paddingVertical: 2,
     width: 300
   },
   text: {

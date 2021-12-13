@@ -22,6 +22,8 @@ import {
   connectDatabaseEmulator,
 } from "firebase/database";
 import { ListItem, Avatar, SearchBar, Icon, PricingCard } from "react-native-elements";
+import Tracker from "./Tracker";
+
 
 
 export default function KeystoneHabits() {
@@ -100,38 +102,49 @@ export default function KeystoneHabits() {
 
   return (
     <View style={styles.container}>
-     <PricingCard
+      <View style={styles.cards}>
+     <PricingCard containerStyle={{margin: 1}}
         color="#4f9deb"
         title="Reading"
         price={totalReadingTime}
         info={["Minutes in total", `Or ${(totalReadingTime / 60).toFixed(2)} hours`, `Average duration: ${(totalReadingTime / readingItems.length).toFixed(0)} minutes`]}
         button={{ title: "Track your progress", icon: "flight-takeoff" }}
       />  
-      <PricingCard
+      <PricingCard containerStyle={{margin: 1}}
         color="#4f9deb"
         title="Meditation"
         price={totalMeditationtime}
         info={["Minutes in total", `Or ${(totalMeditationtime / 60).toFixed(2)} hours`, `Average duration: ${(totalMeditationtime / meditationItems.length).toFixed(0)} minutes`] }
         button={{ title: "Track your progress", icon: "flight-takeoff" }}
-      />  
+        /> 
+      </View>  
+      
+      <View style={styles.container2}>
+        <View style={styles.container3}>
          <TextInput
           placeholder="Set reading duration"
           value={timeRead}
           onChangeText={(text) => setTimeRead(text)}
           style={styles.input}
       />
-      
-        <Button onPress={saveReadingTime} title="Save reading time"></Button>
+          <Button onPress={saveReadingTime} title="Save reading time"></Button>
+        </View>
+      <View style={styles.container4}>
+
         <TextInput
           placeholder="Set meditation duration"
           value={timeMeditated}
           onChangeText={(text) => setTimemeditated(text)}
           style={styles.input}
-        />
+          />
         <Button
           onPress={saveMeditationTime}
           title="Save meditation time"
-        ></Button>
+          ></Button>
+          </View>
+      </View>
+      <Tracker/>
+       
       </View>
   );
 }
@@ -142,5 +155,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
+  },
+  cards: {
+    flexDirection: "row",
+  }, 
+  container2: {
+    flexDirection: "row",
+    marginTop: 'auto',
+  },
+  container3: {
+    flexDirection: "column",
+    marginHorizontal: 20
+
+  },
+  container4: {
+    flexDirection: "column",
+    marginHorizontal: 20
   }
+
 });
