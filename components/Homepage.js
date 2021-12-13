@@ -25,7 +25,7 @@ export default function Homepage({navigation}) {
   const [counter, setCounter] = useState(1);
   let dayOfMonth = new Date().toISOString().slice(0, 10);
   const [visible, setVisible] = useState(false);
-  const isMountedVal = useRef(1)
+  const isMountedRef = useRef(1)
 
 
   const toggleOverlay = () => {
@@ -91,16 +91,16 @@ export default function Homepage({navigation}) {
       const parsedInitialDate = Date.parse(dayOfMonth);
 
       if (parsedSavedDate == parsedInitialDate) {
-        setTimeout(() => {
+        // setTimeout(() => {
           getQuoteStorage();
           getPhotoStorage()
-          }, 500);
+          // }, 500);
       } else if (!savedDate || parsedSavedDate < parsedInitialDate) {
-        setTimeout(() => {
+        // setTimeout(() => {
           storeDateData(dayOfMonth);
           getQuoteData();
           getPhotoData();
-        }, 500)
+        // }, 500)
       }
     } catch (e) {
       return e;
@@ -148,6 +148,7 @@ export default function Homepage({navigation}) {
   const incrementCounter = () => setCounter(counter + 1);
   
 
+  // Clean up 1
   useEffect(() => {
     getData();
     return () => {
@@ -156,9 +157,27 @@ export default function Homepage({navigation}) {
       setVisible(null)
       dayOfMonth = null
       setCounter(null)
-
     };
   }, []);
+
+
+  // Clean up 2
+  useEffect(() => {
+  isMountedRef.current = true;               // set true when mounted
+  return () => isMountedRef.current = false; // clear when unmounted
+  }, []);
+
+  useEffect(() => {
+  window.addEventListener('mousemove', () => {});
+
+  // returned function will be called on component unmount 
+  return () => {
+    window.removeEventListener('mousemove', () => {})
+  }
+}, [])
+  
+
+
 
   return (
     <View style={styles.container}>

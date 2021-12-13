@@ -37,21 +37,26 @@ export default function KeystoneHabits() {
   const saveReadingTime = () => {
     let clocktime = new Date().toLocaleTimeString().slice(0, 5);
 
+    if (!isNaN(+timeMeditated)) {
     push(ref(db, `reading/${auth.currentUser.uid}`), {
       reading_duration: timeRead,
       date: monthtime + " " + clocktime,
-    });
-    console.log("added succesfully");
+    }    
+    );
+      console.log("added succesfully");
+      }
   };
 
   const saveMeditationTime = () => {
     let clocktime = new Date().toLocaleTimeString().slice(0, 5);
 
-    push(ref(db, `meditation/${auth.currentUser.uid}`), {
-      meditation_duration: timeMeditated,
-      date: monthtime + " " + clocktime,
-    });
-    console.log("added succesfully");
+    if (!isNaN(+timeMeditated)) {
+      push(ref(db, `meditation/${auth.currentUser.uid}`), {
+        meditation_duration: timeMeditated,
+        date: monthtime + " " + clocktime,
+      });
+      console.log("added succesfully");
+    }
   };
 
   useEffect(() => {

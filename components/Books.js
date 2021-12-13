@@ -21,6 +21,7 @@ import { ListItem, Avatar, SearchBar, Icon } from "react-native-elements";
 export default function Books({ navigation }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
+
   
   const checkBook = (item) => {
     var ref = db.ref(`books/${auth.currentUser.uid}/`)
