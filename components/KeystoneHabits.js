@@ -45,6 +45,7 @@ export default function KeystoneHabits({navigation}) {
   let monthtime = new Date().toISOString().slice(0, 10);
 
   const saveReadingTime = () => {
+    setTimeRead("")
     inputRef.current.clear();
     let clocktime = new Date().toLocaleTimeString().slice(0, 8);
 
@@ -58,6 +59,7 @@ export default function KeystoneHabits({navigation}) {
   };
 
   const saveMeditationTime = () => {
+    setTimemeditated("")
     inputRef.current.clear();
     let clocktime = new Date().toLocaleTimeString().slice(0, 8);
 

@@ -130,7 +130,7 @@ const LoginScreen = () => {
       </View>
       {isVisible == true ? (
         <View>
-          <Image style={styles.stretch} source={loading} />
+          <Image style={styles.loadingpic} source={loading} />
         </View>
       ) : null}
     </KeyboardAvoidingView>
@@ -188,9 +188,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
-  stretch: {
-    marginTop: 80,
-    width: 70,
-    height: 70,
+  loadingpic: {
+    marginTop: 70,
+    width: 42,
+    height: 42,
   },
 });
