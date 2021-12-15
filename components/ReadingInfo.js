@@ -1,45 +1,32 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  FlatList,
-  StatusBar,
-  Image,
-  SafeAreaView,
-  ScrollView
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { auth, db } from "../Firebase";
-import { getDatabase, push, ref, onValue, query } from "firebase/database";
-import { ListItem, Avatar, Icon, Button } from "react-native-elements";
-import ReadingItem, { Separator } from "./ReadingItem";
+import { ref, onValue } from "firebase/database";
+import { ListItem } from "react-native-elements";
+import ReadingItem from "./ReadingItem";
 
-const ReadingInfo = ({navigation}) => {
-    const [items, setItems] = useState([]);
+const ReadingInfo = ({ navigation }) => {
+  const [items, setItems] = useState([]);
 
-
-   useEffect(() => {
-    const refresh = navigation.addListener('focus', () => {
-    const itemsRef = ref(db, `reading/${auth.currentUser.uid}`)
-    onValue(itemsRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        setItems(Object.values(data));
-      }
-    })
+  useEffect(() => {
+    const refresh = navigation.addListener("focus", () => {
+      const itemsRef = ref(db, `reading/${auth.currentUser.uid}`);
+      onValue(itemsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          setItems(Object.values(data));
+        }
       });
-     return refresh;
-   }, [navigation]);
-   
-    // Clean up 2
-    useEffect(() => {
-        return () => {
-        setItems([])
-    }
+    });
+    return refresh;
+  }, [navigation]);
+
+  // Clean up 2
+  useEffect(() => {
+    return () => {
+      setItems([]);
+    };
   }, []);
-    
 
   const removeItem = (date) => {
     var ref = db.ref(`reading/${auth.currentUser.uid}`);
@@ -58,9 +45,9 @@ const ReadingInfo = ({navigation}) => {
     const filteredData = items.filter((item) => item.date !== date);
     setItems(filteredData);
     alert("Reading session removed succesfully");
-    };
-    
-    console.log(items)
+  };
+
+  console.log(items);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,20 +56,21 @@ const ReadingInfo = ({navigation}) => {
         keyExtractor={(item) => item.date}
         renderItem={({ item }) => (
           <ListItem bottomDivider>
-            <ReadingItem {...item} onRightPress={() => removeItem(item.date)}
-              />
-         </ListItem>
+            <ReadingItem {...item} onRightPress={() => removeItem(item.date)} />
+          </ListItem>
         )}
-          />
+      />
     </SafeAreaView>
-);
-}
+  );
+};
 
-export default ReadingInfo
+export default ReadingInfo;
 
-const styles = StyleSheet.create({  container: {
+const styles = StyleSheet.create({
+  container: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  }})
+  },
+});

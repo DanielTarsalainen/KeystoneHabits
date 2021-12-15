@@ -1,38 +1,15 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
 import {
-  Alert,
   StyleSheet,
-  Text,
   View,
   TextInput,
-  FlatList,
-  StatusBar,
-  Image,
-  SafeAreaView,
   KeyboardAvoidingView,
 } from "react-native";
 import { auth, db } from "../Firebase";
-import {
-  getDatabase,
-  push,
-  ref,
-  onValue,
-  query,
-  connectDatabaseEmulator,
-} from "firebase/database";
-import {
-  ListItem,
-  Avatar,
-  SearchBar,
-  Icon,
-  PricingCard,
-  Input,
-  Button,
-  ThemeProvider
-} from "react-native-elements";
-import ReadingInfo from "./ReadingInfo";
+import { push, ref, onValue } from "firebase/database";
+import { PricingCard, Button } from "react-native-elements";
 
-export default function KeystoneHabits({navigation}) {
+export default function KeystoneHabits({ navigation }) {
   const [timeRead, setTimeRead] = useState("");
   const [timeMeditated, setTimemeditated] = useState("");
   const [meditationItems, setMeditationItems] = useState([]);
@@ -45,7 +22,7 @@ export default function KeystoneHabits({navigation}) {
   let monthtime = new Date().toISOString().slice(0, 10);
 
   const saveReadingTime = () => {
-    setTimeRead("")
+    setTimeRead("");
     inputRef.current.clear();
     let clocktime = new Date().toLocaleTimeString().slice(0, 8);
 
@@ -59,7 +36,7 @@ export default function KeystoneHabits({navigation}) {
   };
 
   const saveMeditationTime = () => {
-    setTimemeditated("")
+    setTimemeditated("");
     inputRef.current.clear();
     let clocktime = new Date().toLocaleTimeString().slice(0, 8);
 
@@ -97,17 +74,17 @@ export default function KeystoneHabits({navigation}) {
     return () => {
       setReadingItems([]);
       setMeditationItems([]);
-      setTimeRead("")
-      setTimemeditated("")
-      setTotalReadingTime(0)
-      setTotalMeditationTime(0)
+      setTimeRead("");
+      setTimemeditated("");
+      setTotalReadingTime(0);
+      setTotalMeditationTime(0);
     };
   }, []);
 
   // Clean up 2
-    useEffect(() => {
+  useEffect(() => {
     isMountedRef.current = true; // set true when mounted
-      return () => (isMountedRef.current = false, inputRef.current = false); // clear when unmounted
+    return () => ((isMountedRef.current = false), (inputRef.current = false)); // clear when unmounted
   }, []);
 
   const getReadingSum = (data) => {
@@ -130,34 +107,40 @@ export default function KeystoneHabits({navigation}) {
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.cards}>
         <PricingCard
-          containerStyle={{ margin: 1, }}
-          pricingStyle={{marginTop: -24}}
+          containerStyle={{ margin: 1 }}
+          pricingStyle={{ marginTop: -24 }}
           color="#4fdc6d"
           title="Reading"
-          info={[`Total sessions: ${readingItems.length}`, `${totalReadingTime} minutes`,
+          info={[
+            `Total sessions: ${readingItems.length}`,
+            `${totalReadingTime} minutes`,
             `Or ${(totalReadingTime / 60).toFixed(2)} hours in total`,
-            `Average duration: ${totalReadingTime
-              ? (totalReadingTime / readingItems.length).toFixed(0)
-              : 0
+            `Average duration: ${
+              totalReadingTime
+                ? (totalReadingTime / readingItems.length).toFixed(0)
+                : 0
             } minutes`,
           ]}
           button={{ title: "Track your progress", icon: "flight-takeoff" }}
-          onButtonPress={() => navigation.navigate('ReadingInfo')}
+          onButtonPress={() => navigation.navigate("ReadingInfo")}
         />
         <PricingCard
           containerStyle={{ margin: 1 }}
-          pricingStyle={{marginTop: -24}}
+          pricingStyle={{ marginTop: -24 }}
           color="#4fdcba"
           title="Meditation"
-          info={[`Total sessions: ${meditationItems.length}`, `${totalMeditationtime} minutes`,
+          info={[
+            `Total sessions: ${meditationItems.length}`,
+            `${totalMeditationtime} minutes`,
             `Or ${(totalMeditationtime / 60).toFixed(2)} hours in total`,
-            `Average duration: ${totalMeditationtime
-              ? (totalMeditationtime / meditationItems.length).toFixed(0)
-              : 0
+            `Average duration: ${
+              totalMeditationtime
+                ? (totalMeditationtime / meditationItems.length).toFixed(0)
+                : 0
             } minutes`,
           ]}
-          button={{ title: "Track your progress", icon: "flight-takeoff",  }}
-          onButtonPress={() => navigation.navigate('MeditationInfo')}
+          button={{ title: "Track your progress", icon: "flight-takeoff" }}
+          onButtonPress={() => navigation.navigate("MeditationInfo")}
         />
       </View>
 
@@ -170,15 +153,18 @@ export default function KeystoneHabits({navigation}) {
               value={timeRead}
               onChangeText={(text) => setTimeRead(text)}
               style={styles.input}
-              placeholderTextColor={'black'}
-
+              placeholderTextColor={"black"}
             />
             <Button
-              icon={{ name: "save", size: 15, color: "white" }} onPress={saveReadingTime}
-              title="Save reading" buttonStyle={{borderRadius: 30, backgroundColor: "#4fdc6d", marginTop: 10}}
+              icon={{ name: "save", size: 15, color: "white" }}
+              onPress={saveReadingTime}
+              title="Save reading"
+              buttonStyle={{
+                borderRadius: 30,
+                backgroundColor: "#4fdc6d",
+                marginTop: 10,
+              }}
             />
-
-
           </View>
           <View style={styles.container4}>
             <TextInput
@@ -187,11 +173,17 @@ export default function KeystoneHabits({navigation}) {
               value={timeMeditated}
               onChangeText={(text) => setTimemeditated(text)}
               style={styles.input}
-              placeholderTextColor={'black'}
+              placeholderTextColor={"black"}
             />
-            <Button 
+            <Button
               icon={{ name: "save", size: 15, color: "white" }}
-              title="Save meditation" buttonStyle={{borderRadius: 30, backgroundColor: "#4fdcba", marginTop: 10}} onPress={saveMeditationTime}
+              title="Save meditation"
+              buttonStyle={{
+                borderRadius: 30,
+                backgroundColor: "#4fdcba",
+                marginTop: 10,
+              }}
+              onPress={saveMeditationTime}
             />
           </View>
         </View>
@@ -223,13 +215,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginHorizontal: 10,
   },
-   input: {
+  input: {
     backgroundColor: "#eef9f3",
     paddingHorizontal: 15,
     paddingVertical: 5,
     borderRadius: 10,
-     marginTop: 14,
-    color: "black"
-  }
-  
+    marginTop: 14,
+    color: "black",
+  },
 });

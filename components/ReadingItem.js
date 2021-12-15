@@ -1,20 +1,13 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Animated,
-  TouchableOpacity,
-  Image
-} from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { ListItem, Avatar } from 'react-native-elements'
+import React from "react";
+import { View, StyleSheet, Animated, TouchableOpacity } from "react-native";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { ListItem } from "react-native-elements";
 
-const RightActions = ({ progress, dragX, onPress }) => {
+const RightActions = ({ dragX, onPress }) => {
   const scale = dragX.interpolate({
     inputRange: [-100, 0],
     outputRange: [1, 0],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
   return (
     <TouchableOpacity onPress={onPress}>
@@ -40,29 +33,29 @@ const ReadingItem = ({ reading_duration, date, onRightPress }) => (
   </Swipeable>
 );
 
-export default ReadingItem
+export default ReadingItem;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 10,
     paddingVertical: 10,
-    width: 300
+    width: 300,
   },
   text: {
-    color: '#4a4a4a',
+    color: "#4a4a4a",
     fontSize: 15,
   },
   rightAction: {
-    backgroundColor: '#f96d4e',
-    justifyContent: 'center',
+    backgroundColor: "#f96d4e",
+    justifyContent: "center",
     flex: 1,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   actionText: {
-    color: '#fff',
-    fontWeight: '600',
+    color: "#fff",
+    fontWeight: "600",
     padding: 20,
-    fontSize: 20
+    fontSize: 20,
   },
 });

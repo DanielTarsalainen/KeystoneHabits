@@ -1,10 +1,9 @@
-import React, { useEffect, useState, Time } from 'react';
-import { Alert, StyleSheet, View, TextInput, FlatList, StatusBar, Image } from 'react-native';
+import React from 'react';
+import {StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import KeystoneHabits from './KeystoneHabits';
-import ReadingInfo from './ReadingInfo';
-import MeditationInfo from './MeditationInfo'
-// import LoginNav from './navigations/LoginNav'
+import KeystoneHabits from '../Habits';
+import ReadingInfo from '../ReadingInfo';
+import MeditationInfo from '../MeditationInfo'
 
 const Stack = createStackNavigator();
 

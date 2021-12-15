@@ -1,4 +1,3 @@
-import { NavigationContainer } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/core";
 import React, { useState, useEffect, useRef } from "react";
 import {
@@ -8,12 +7,12 @@ import {
   View,
   TextInput,
   ImageBackground,
-  Image
+  Image,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { auth } from "../Firebase";
-import loading from "/loppuprojekti_mobiili/keystonehabits/screens/loading.gif";
-import keystonehabits from "/loppuprojekti_mobiili/keystonehabits/screens/keystonehabits.jpg";
+import loading from "/loppuprojekti_mobiili/keystonehabits/images/loading.gif";
+import keystonehabits from "/loppuprojekti_mobiili/keystonehabits/images/keystonehabits.jpg";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -32,8 +31,8 @@ const LoginScreen = () => {
   });
 
   useEffect(() => {
-    isMountedRef.current = true; // set true when mounted
-    return () => (isMountedRef.current = false); // clear when unmounted
+    isMountedRef.current = true;
+    return () => (isMountedRef.current = false);
   }, []);
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const LoginScreen = () => {
       clearTimeout(timer);
       setEmail("");
       setPassword("");
-      setIsVisible(false)
+      setIsVisible(false);
     };
   }, []);
 
@@ -83,9 +82,12 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled={false}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+      enabled={false}
+    >
       <View style={styles.inputContainer}>
-
         <ImageBackground
           source={keystonehabits}
           style={{ width: "100%", height: "60%" }}
@@ -93,14 +95,20 @@ const LoginScreen = () => {
           <View
             style={{
               position: "absolute",
-              top:38,
+              top: 38,
               left: 0,
               right: 0,
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <Text style={{ fontWeight: "800", fontFamily: "monospace", fontSize: 27}}>KeystoneHabits</Text>
+            <Text
+              style={{
+                fontWeight: "800",
+                fontFamily: "monospace",
+                fontSize: 27,
+              }}
+            >KeystoneHabits</Text>
           </View>
         </ImageBackground>
         <TextInput
@@ -130,7 +138,7 @@ const LoginScreen = () => {
         </TouchableOpacity>
       </View>
       {isVisible == true ? (
-        <View style={{marginBottom: 25}}>
+        <View style={{ marginBottom: 25 }}>
           <Image style={styles.loadingpic} source={loading} />
         </View>
       ) : null}
@@ -144,7 +152,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   inputContainer: {
     width: "80%",
@@ -163,7 +171,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     flexDirection: "row",
     paddingRight: 30,
-    paddingLeft: 30
+    paddingLeft: 30,
   },
   button: {
     backgroundColor: "#0782F9",
@@ -177,7 +185,7 @@ const styles = StyleSheet.create({
     borderColor: "#0782F9",
     borderWidth: 2,
     borderRadius: 10,
-    padding: 13
+    padding: 13,
   },
   buttonText: {
     color: "white",

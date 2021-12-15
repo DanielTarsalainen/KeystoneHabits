@@ -1,84 +1,92 @@
 import React, { useState, useEffect } from "react";
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  FlatList,
-  StatusBar,
-  Image,
-  SafeAreaView
-} from "react-native";
+import { Alert, StyleSheet, View, FlatList, SafeAreaView } from "react-native";
 import { auth, db } from "../Firebase";
-import { getDatabase, push, ref, onValue, get } from "firebase/database";
+import { push, ref } from "firebase/database";
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Setting a timer"]);
-import Item, { Separator } from "./Item";
-import { ListItem, Avatar, SearchBar, Icon } from "react-native-elements";
+import Item from "./Item";
+import { ListItem, SearchBar, Icon } from "react-native-elements";
+import googleKey from "../GoogleApi";
 
 export default function Books({ navigation }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
 
-  
   const checkBook = (item) => {
-    var ref = db.ref(`books/${auth.currentUser.uid}/`)
-    var query = ref.orderByChild("bookId").equalTo(item.id)
+    var ref = db.ref(`books/${auth.currentUser.uid}/`);
+    var query = ref.orderByChild("bookId").equalTo(item.id);
 
-    query.once('value', function (snapshot) {
+    query.once("value", function (snapshot) {
       if (snapshot.exists()) {
-        Alert.alert("You already have this book!")
+        Alert.alert("You already have this book!");
       } else {
-        saveBook(item)
+        saveBook(item);
       }
     });
-  }
-  
+  };
+
   const saveBook = (item) => {
     push(ref(db, `books/${auth.currentUser.uid}`), {
-      'author': item.volumeInfo.authors ? item.volumeInfo.authors[0] : null, 'title': item.volumeInfo.title ? item.volumeInfo.title : null, 'picture': item.volumeInfo.imageLinks ? item.volumeInfo.imageLinks.smallThumbnail : null, 'pages': item.volumeInfo.pageCount, 'isRead': false, 'bookId': item.id, 'userid': auth.currentUser.uid
+      author: item.volumeInfo.authors ? item.volumeInfo.authors[0] : null,
+      title: item.volumeInfo.title ? item.volumeInfo.title : null,
+      picture: item.volumeInfo.imageLinks
+        ? item.volumeInfo.imageLinks.smallThumbnail
+        : null,
+      pages: item.volumeInfo.pageCount,
+      isRead: false,
+      bookId: item.id,
+      userid: auth.currentUser.uid,
     });
-    deleteItemById(item.id)
-  }
+    deleteItemById(item.id);
+  };
 
   const deleteItemById = (id) => {
     const filteredData = books.filter((item) => item.id !== id);
     setBooks(filteredData);
-     Alert.alert("Book was added succesfully!")
+    Alert.alert("Book was added succesfully!");
   };
 
-  const getBooks = (text) => {  
-    setSearchTerm(text)
+  const getBooks = (text) => {
+    setSearchTerm(text);
     fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=${text}&key=AIzaSyD0JSSkprb0aJy9r-csuF7aWT3k7Jyhop8`
+      `https://www.googleapis.com/books/v1/volumes?q=${text}&key=${googleKey}`
     )
       .then((reponse) => reponse.json())
       .then((responseJson) => setBooks(responseJson.items))
       .catch((error) => {
         Alert.alert("Error", error);
-      });  
+      });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.input}>
-       <SearchBar
+        <SearchBar
           round
           searchIcon={{ size: 24 }}
           onChangeText={(text) => getBooks(text)}
           placeholder="Search an interesting book..."
           value={searchTerm}
-          inputStyle={{backgroundColor: 'white'}}
-          containerStyle={{backgroundColor: 'white', borderWidth: 1, borderRadius: 20}}
-          inputContainerStyle={{backgroundColor: 'white'}}        
+          inputStyle={{ backgroundColor: "white" }}
+          containerStyle={{
+            backgroundColor: "white",
+            borderWidth: 1,
+            borderRadius: 20,
+          }}
+          inputContainerStyle={{ backgroundColor: "white" }}
         />
       </View>
       <View style={styles.menu}>
-         <Icon name='menu' type='feather' color='#517fa4' size={34} onPress={() => navigation.toggleDrawer()}/>
+        <Icon
+          name="menu"
+          type="feather"
+          color="#517fa4"
+          size={34}
+          onPress={() => navigation.toggleDrawer()}
+        />
       </View>
-      <FlatList style={{marginTop: 20}}
+      <FlatList
+        style={{ marginTop: 20 }}
         data={books}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -91,8 +99,7 @@ export default function Books({ navigation }) {
           </ListItem>
         )}
       />
-      <View style={styles.buttons}>
-      </View>
+      <View style={styles.buttons}></View>
     </SafeAreaView>
   );
 }
@@ -121,11 +128,11 @@ const styles = StyleSheet.create({
     marginTop: 50,
     width: "80%",
     alignSelf: "flex-end",
-    marginRight: 20
+    marginRight: 20,
   },
   menu: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     marginTop: -50,
-    paddingLeft: 14
-  }
+    paddingLeft: 14,
+  },
 });

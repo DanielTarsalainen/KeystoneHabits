@@ -1,36 +1,23 @@
 import React, { useState, useEffect } from "react";
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  FlatList,
-  StatusBar,
-  Image,
-  SafeAreaView,
-  ScrollView
-} from "react-native";
+import { StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { auth, db } from "../Firebase";
-import { getDatabase, push, ref, onValue, query } from "firebase/database";
-import { ListItem, Avatar, Icon, Button } from "react-native-elements";
-import FinishedItem, { Separator } from "./FinishedItem";
+import { ListItem } from "react-native-elements";
+import FinishedItem from "./FinishedItem";
 
-
-const ReadBooks = ({navigation}) => {
+const ReadBooks = ({ navigation }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     const refresh = navigation.addListener("focus", () => {
-       var ref = db.ref(`books/${auth.currentUser.uid}`);
-    ref
-      .orderByChild("isRead")
-      .equalTo(true)
-      .once("value", function (snapshot) {
-        if (snapshot.val()) {
-          setItems(Object.values(snapshot.val()));
-        }
-      });
+      var ref = db.ref(`books/${auth.currentUser.uid}`);
+      ref
+        .orderByChild("isRead")
+        .equalTo(true)
+        .once("value", function (snapshot) {
+          if (snapshot.val()) {
+            setItems(Object.values(snapshot.val()));
+          }
+        });
     });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
@@ -63,14 +50,16 @@ const ReadBooks = ({navigation}) => {
         keyExtractor={(item) => item.bookId}
         renderItem={({ item }) => (
           <ListItem bottomDivider>
-            <FinishedItem {...item} onRightPress={() => removeItem(item.bookId)}
-              />
-         </ListItem>
+            <FinishedItem
+              {...item}
+              onRightPress={() => removeItem(item.bookId)}
+            />
+          </ListItem>
         )}
-          />
+      />
     </SafeAreaView>
-);
-}
+  );
+};
 
 export default ReadBooks;
 

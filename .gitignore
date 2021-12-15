@@ -9,6 +9,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-
+FirebaseConfig.js
+GoogleApi.js
+UnsplashKey.js
 # macOS
 .DS_Store

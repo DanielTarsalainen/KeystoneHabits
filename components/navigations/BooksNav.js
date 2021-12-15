@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Books from "./Books";
-import OwnBooks from "./OwnBooks";
-import ReadBooks from "./ReadBooks";
+import Books from "../Books";
+import OwnBooks from "../OwnBooks";
+import ReadBooks from "../FinishedBooks";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 

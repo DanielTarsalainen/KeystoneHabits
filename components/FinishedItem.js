@@ -1,20 +1,19 @@
-import React from 'react';
+import React from "react";
 import {
   View,
-  Text,
   StyleSheet,
   Animated,
   TouchableOpacity,
-  Image
-} from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { ListItem, Avatar } from 'react-native-elements'
+  Image,
+} from "react-native";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { ListItem } from "react-native-elements";
 
 const RightActions = ({ progress, dragX, onPress }) => {
   const scale = dragX.interpolate({
     inputRange: [-100, 0],
     outputRange: [1, 0],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
   return (
     <TouchableOpacity onPress={onPress}>
@@ -35,47 +34,42 @@ const FinishedItem = ({ author, picture, title, onRightPress }) => (
   >
     <View style={styles.container}>
       <ListItem.Title>{title}</ListItem.Title>
-      {author ? 
-      <ListItem.Subtitle>{author}</ListItem.Subtitle> : null
-      }
-      
-            {picture ? (
-              <Image
-                source={{ uri: picture }}
-                style={{ width: 100, height: 100 }}
-              />
-            ) : null}
+      {author ? <ListItem.Subtitle>{author}</ListItem.Subtitle> : null}
+
+      {picture ? (
+        <Image source={{ uri: picture }} style={{ width: 100, height: 100 }} />
+      ) : null}
     </View>
   </Swipeable>
 );
 
-export default FinishedItem
+export default FinishedItem;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 10,
     paddingVertical: 4,
-    width: 300
+    width: 300,
   },
   text: {
-    color: '#4a4a4a',
+    color: "#4a4a4a",
     fontSize: 15,
   },
   leftAction: {
-    backgroundColor: '#98f500',
-    justifyContent: 'center',
+    backgroundColor: "#98f500",
+    justifyContent: "center",
   },
   rightAction: {
-    backgroundColor: '#f58900',
-    justifyContent: 'center',
+    backgroundColor: "#f58900",
+    justifyContent: "center",
     flex: 1,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   actionText: {
-    color: '#fff',
-    fontWeight: '600',
+    color: "#fff",
+    fontWeight: "600",
     padding: 20,
-    fontSize: 20
+    fontSize: 20,
   },
 });

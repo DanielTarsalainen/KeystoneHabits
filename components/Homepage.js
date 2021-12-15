@@ -1,32 +1,20 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  Alert,
-  StyleSheet,
-  View
-} from "react-native";
-import {
-  Card,
-  Text,
-  useTheme,
-  Overlay,
-  Icon
-} from "react-native-elements";
+import { Alert, StyleSheet, View } from "react-native";
+import { Card, Text, useTheme, Overlay, Icon } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import photoKey from "../UnsplashKey";
 
-
-export default function Homepage({navigation}) {
+export default function Homepage({ navigation }) {
   const { theme } = useTheme();
-  const Tab = createBottomTabNavigator();
   const [quoteData, setQuoteData] = useState([]);
   const [photoData, setPhotoData] = useState("");
   const [counter, setCounter] = useState(1);
-  let dayOfMonth = new Date().toISOString().slice(0, 10);
   const [visible, setVisible] = useState(false);
-  const isMountedRef = useRef(1)
-
+  const isMountedRef = useRef(1);
+  let dayOfMonth = new Date().toISOString().slice(0, 10);
 
   const toggleOverlay = () => {
     setVisible(!visible);
@@ -81,20 +69,20 @@ export default function Homepage({navigation}) {
   };
 
   const getData = async () => {
-    setVisible(true)
+    setVisible(true);
     try {
       const savedDate = await AsyncStorage.getItem("@day_data");
       const parsedSavedDate = Date.parse(savedDate);
       const parsedInitialDate = Date.parse(dayOfMonth);
 
       if (parsedSavedDate == parsedInitialDate) {
-          getQuoteStorage();
-          getPhotoStorage()
-          // }, 500);
+        getQuoteStorage();
+        getPhotoStorage();
+        // }, 500);
       } else if (!savedDate || parsedSavedDate < parsedInitialDate) {
-          storeDateData(dayOfMonth);
-          getQuoteData();
-          getPhotoData();
+        storeDateData(dayOfMonth);
+        getQuoteData();
+        getPhotoData();
       }
     } catch (e) {
       return e;
@@ -116,7 +104,7 @@ export default function Homepage({navigation}) {
 
   const getPhotoData = () => {
     fetch(
-      "https://api.unsplash.com/photos/random?client_id=b7YQ1F52WYTy-uNWGKFdp1ADP09pfDvLJs3uUQ7cMBg&query=wanderlust,nature"
+      `https://api.unsplash.com/photos/random?client_id=${photoKey}&query=wanderlust,nature`
     )
       .then((response) => response.json())
       .then((responseJson) => storePhotoData(responseJson.urls.small))
@@ -140,7 +128,6 @@ export default function Homepage({navigation}) {
   };
 
   const incrementCounter = () => setCounter(counter + 1);
-  
 
   // Clean up 1
   useEffect(() => {
@@ -148,36 +135,47 @@ export default function Homepage({navigation}) {
     return () => {
       setQuoteData([]);
       setPhotoData("");
-      setCounter(1)
-      setVisible(false)
+      setCounter(1);
+      setVisible(false);
     };
   }, []);
 
-
   // Clean up 2
   useEffect(() => {
-  isMountedRef.current = true;               // set true when mounted
-    return () =>
-      isMountedRef.current = false; // clear when unmounted
+    isMountedRef.current = true;
+    return () => (isMountedRef.current = false);
   }, []);
 
-  
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity hitSlop={{top: 30, bottom: 30, left: 50, right: 50}}>
-          <Icon style={{position: "absolute"}} name='rightcircleo' type='antdesign' color='#517fa4' size={50} onPress={() => navigation.toggleDrawer
-            ()} />
-          </TouchableOpacity>
-        </View>
-      <Overlay overlayStyle={{ padding: 70, borderRadius: 20 }} isVisible={visible} onBackdropPress={toggleOverlay}>
-        <Text>Welcome to KeystoneHabits. I hope you enjoy this simple application! :)
+        <TouchableOpacity
+          hitSlop={{ top: 30, bottom: 30, left: 50, right: 50 }}
+        >
+          <Icon
+            style={{ position: "absolute" }}
+            name="rightcircleo"
+            type="antdesign"
+            color="#517fa4"
+            size={50}
+            onPress={() => navigation.toggleDrawer()}
+          />
+        </TouchableOpacity>
+      </View>
+      <Overlay
+        overlayStyle={{ padding: 70, borderRadius: 20 }}
+        isVisible={visible}
+        onBackdropPress={toggleOverlay}
+      >
+        <Text>
+          Welcome to KeystoneHabits. I hope you enjoy this simple application!
+          :)
         </Text>
       </Overlay>
       <View style={styles.content}>
-      <Text style={styles.text} h4 h4Style={{ color: theme?.colors?.black }}>
-        Here's a daily dose of Stoic wisdom for you:
-      </Text>
+        <Text style={styles.text} h4 h4Style={{ color: theme?.colors?.black }}>
+          Here's a daily dose of Stoic wisdom for you:
+        </Text>
         <Card>
           <Card.Title>A quote from {quoteData.author}</Card.Title>
           <Card.Divider></Card.Divider>
@@ -195,8 +193,8 @@ export default function Homepage({navigation}) {
             size={24}
             color="black"
           />
-          </Card>
-          </View>
+        </Card>
+      </View>
     </View>
   );
 }
@@ -224,11 +222,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "700",
     fontSize: 16,
-  }, 
+  },
   buttonContainer: {
-  top: 55,
-  right: 10,
-  alignSelf: 'flex-end',
-  position: "absolute"
-  }
+    top: 55,
+    right: 10,
+    alignSelf: "flex-end",
+    position: "absolute",
+  },
 });
