@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Card, Text, useTheme, Overlay, Icon } from "react-native-elements";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import photoKey from "../UnsplashKey";
