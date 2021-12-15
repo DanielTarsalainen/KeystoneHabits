@@ -1,5 +1,4 @@
 # KeystoneHabits
-Mobile programming end project
 #### Creator: Daniel Tarsalainen
 
 ### Used technologies:
