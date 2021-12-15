@@ -35,7 +35,6 @@ const FinishedItem = ({ author, picture, title, onRightPress }) => (
     <View style={styles.container}>
       <ListItem.Title>{title}</ListItem.Title>
       {author ? <ListItem.Subtitle>{author}</ListItem.Subtitle> : null}
-
       {picture ? (
         <Image source={{ uri: picture }} style={{ width: 100, height: 100 }} />
       ) : null}

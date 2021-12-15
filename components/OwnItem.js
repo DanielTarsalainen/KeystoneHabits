@@ -59,8 +59,9 @@ const OwnItem = ({
     <View style={styles.container}>
       <ListItem.Title>{title}</ListItem.Title>
       {author ? <ListItem.Subtitle>Author: {author}</ListItem.Subtitle> : null}
-      <ListItem.Subtitle>Number of pages: {pages}</ListItem.Subtitle>
-
+      { pages ?
+        <ListItem.Subtitle>Number of pages: {pages}</ListItem.Subtitle>
+      : null}
       {picture ? (
         <Image source={{ uri: picture }} style={{ width: 100, height: 100 }} />
       ) : null}

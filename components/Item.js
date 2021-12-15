@@ -28,9 +28,12 @@ const Item = ({ volumeInfo, onSwipeFromLeft, onRightPress }) => (
       {volumeInfo.authors ? (
         <ListItem.Subtitle>{volumeInfo.authors[0]}</ListItem.Subtitle>
       ) : null}
+
+      {volumeInfo.pageCount ?
       <ListItem.Subtitle>
         Number of pages: {volumeInfo.pageCount}
-      </ListItem.Subtitle>
+        </ListItem.Subtitle>
+      : null} 
 
       {volumeInfo.imageLinks ? (
         <Image
