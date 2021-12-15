@@ -130,13 +130,12 @@ export default function KeystoneHabits({navigation}) {
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.cards}>
         <PricingCard
-          containerStyle={{ margin: 1 }}
+          containerStyle={{ margin: 1, }}
+          pricingStyle={{marginTop: -24}}
           color="#4fdc6d"
           title="Reading"
-          price={totalReadingTime}
-          info={[
-            "Minutes in total",
-            `Or ${(totalReadingTime / 60).toFixed(2)} hours`,
+          info={[`Total sessions: ${readingItems.length}`, `${totalReadingTime} minutes`,
+            `Or ${(totalReadingTime / 60).toFixed(2)} hours in total`,
             `Average duration: ${totalReadingTime
               ? (totalReadingTime / readingItems.length).toFixed(0)
               : 0
@@ -147,12 +146,11 @@ export default function KeystoneHabits({navigation}) {
         />
         <PricingCard
           containerStyle={{ margin: 1 }}
+          pricingStyle={{marginTop: -24}}
           color="#4fdcba"
           title="Meditation"
-          price={totalMeditationtime}
-          info={[
-            "Minutes in total",
-            `Or ${(totalMeditationtime / 60).toFixed(2)} hours`,
+          info={[`Total sessions: ${meditationItems.length}`, `${totalMeditationtime} minutes`,
+            `Or ${(totalMeditationtime / 60).toFixed(2)} hours in total`,
             `Average duration: ${totalMeditationtime
               ? (totalMeditationtime / meditationItems.length).toFixed(0)
               : 0

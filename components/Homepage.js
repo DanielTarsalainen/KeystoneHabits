@@ -148,9 +148,8 @@ export default function Homepage({navigation}) {
     return () => {
       setQuoteData([]);
       setPhotoData("");
-      setVisible(null)
-      dayOfMonth = null
-      setCounter(null)
+      setCounter(1)
+      setVisible(false)
     };
   }, []);
 

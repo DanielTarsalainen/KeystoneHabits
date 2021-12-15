@@ -18,7 +18,7 @@ import keystonehabits from "/loppuprojekti_mobiili/keystonehabits/screens/keysto
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isVisible, setIsVisible] = useState();
+  const [isVisible, setIsVisible] = useState(false);
   const isMountedRef = useRef(null);
 
   const navigation = useNavigation();
@@ -44,6 +44,7 @@ const LoginScreen = () => {
       clearTimeout(timer);
       setEmail("");
       setPassword("");
+      setIsVisible(false)
     };
   }, []);
 
@@ -129,7 +130,7 @@ const LoginScreen = () => {
         </TouchableOpacity>
       </View>
       {isVisible == true ? (
-        <View>
+        <View style={{marginBottom: 25}}>
           <Image style={styles.loadingpic} source={loading} />
         </View>
       ) : null}
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
   },
   loadingpic: {
     marginTop: 70,
-    width: 42,
-    height: 42,
+    width: 36,
+    height: 36,
   },
 });
