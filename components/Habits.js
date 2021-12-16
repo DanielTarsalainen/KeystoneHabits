@@ -53,13 +53,16 @@ export default function KeystoneHabits({ navigation }) {
     setMeditationItems([]);
     setReadingItems([]);
 
-    const meditationRef = ref(db, `meditation/${auth.currentUser.uid}`);
-    onValue(meditationRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        setMeditationItems(Object.values(data));
-        getMeditationSum(Object.values(data));
-      }
+    const refresh = navigation.addListener("focus", () => {
+      const meditationRef = ref(db, `meditation/${auth.currentUser.uid}`);
+      onValue(meditationRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          setMeditationItems(Object.values(data));
+          getMeditationSum(Object.values(data));
+        }
+      });
+      return refresh;
     });
 
     const readingRef = ref(db, `reading/${auth.currentUser.uid}`);
