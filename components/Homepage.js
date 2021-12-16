@@ -77,7 +77,6 @@ export default function Homepage({ navigation }) {
       if (parsedSavedDate == parsedInitialDate) {
         getQuoteStorage();
         getPhotoStorage();
-        // }, 500);
       } else if (!savedDate || parsedSavedDate < parsedInitialDate) {
         storeDateData(dayOfMonth);
         getQuoteData();

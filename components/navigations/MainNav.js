@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HabitsNav from "./HabitsNav";
 import DrawerNav from "./BooksNav";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import MainDrawerNav from "./HomepageDrawer";
+import HomepageDrawer from "./HomepageDrawer";
 
 const MainNav = () => {
   const Tab = createBottomTabNavigator();
@@ -31,7 +31,7 @@ const MainNav = () => {
       <Tab.Screen
         options={{ headerShown: false }}
         name="Stoic wisdom"
-        component={MainDrawerNav}
+        component={HomepageDrawer}
       />
       <Tab.Screen
         options={{ headerShown: false }}
