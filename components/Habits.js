@@ -50,9 +50,6 @@ export default function KeystoneHabits({ navigation }) {
   };
 
   useEffect(() => {
-    setMeditationItems([]);
-    setReadingItems([]);
-
     const refresh = navigation.addListener("focus", () => {
       const meditationRef = ref(db, `meditation/${auth.currentUser.uid}`);
       onValue(meditationRef, (snapshot) => {
@@ -60,21 +57,28 @@ export default function KeystoneHabits({ navigation }) {
         if (data) {
           setMeditationItems(Object.values(data));
           getMeditationSum(Object.values(data));
+        } else {
+          setMeditationItems([]);
+          setTotalMeditationTime(0);
         }
       });
-      return refresh;
+
+      const readingRef = ref(db, `reading/${auth.currentUser.uid}`);
+      onValue(readingRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          setReadingItems(Object.values(data));
+          getReadingSum(Object.values(data));
+        } else {
+          setReadingItems([]);
+          setTotalReadingTime(0);
+        }
+      });
     });
 
-    const readingRef = ref(db, `reading/${auth.currentUser.uid}`);
-    onValue(readingRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        setReadingItems(Object.values(data));
-        getReadingSum(Object.values(data));
-      }
-    });
-    // Clean up
+    // Clean up 1
     return () => {
+      refresh;
       setReadingItems([]);
       setMeditationItems([]);
       setTimeRead("");
@@ -86,8 +90,8 @@ export default function KeystoneHabits({ navigation }) {
 
   // Clean up 2
   useEffect(() => {
-    isMountedRef.current = true; // set true when mounted
-    return () => ((isMountedRef.current = false), (inputRef.current = false)); // clear when unmounted
+    isMountedRef.current = true;
+    return () => ((isMountedRef.current = false), (inputRef.current = false));
   }, []);
 
   const getReadingSum = (data) => {
@@ -125,7 +129,7 @@ export default function KeystoneHabits({ navigation }) {
             } minutes`,
           ]}
           button={{ title: "Track your progress", icon: "flight-takeoff" }}
-          onButtonPress={() => navigation.navigate("ReadingInfo")}
+          onButtonPress={() => navigation.navigate("Reading information")}
         />
         <PricingCard
           containerStyle={{ margin: 1 }}
@@ -143,7 +147,7 @@ export default function KeystoneHabits({ navigation }) {
             } minutes`,
           ]}
           button={{ title: "Track your progress", icon: "flight-takeoff" }}
-          onButtonPress={() => navigation.navigate("MeditationInfo")}
+          onButtonPress={() => navigation.navigate("Meditation information")}
         />
       </View>
 

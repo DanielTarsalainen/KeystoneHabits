@@ -47,7 +47,6 @@ const ReadingInfo = ({ navigation }) => {
     alert("Reading session removed succesfully");
   };
 
-  console.log(items);
 
   return (
     <SafeAreaView style={styles.container}>

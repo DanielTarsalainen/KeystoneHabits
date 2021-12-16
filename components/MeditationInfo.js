@@ -47,8 +47,6 @@ const MeditationInfo = ({ navigation }) => {
     alert("Meditation session removed succesfully");
   };
 
-  console.log(items);
-
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

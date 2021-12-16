@@ -12,8 +12,8 @@ export default function HabitsNav() {
   return (
       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name="KeystoneHabits" component={KeystoneHabits} />
-        <Stack.Screen options={{ headerShown: true }} name="ReadingInfo" component={ReadingInfo} />
-        <Stack.Screen options={{headerShown: true}} name="MeditationInfo" component={MeditationInfo} />
+        <Stack.Screen options={{ headerShown: true }} name="Reading information" component={ReadingInfo} />
+        <Stack.Screen options={{headerShown: true}} name="Meditation information" component={MeditationInfo} />
 
       </Stack.Navigator>
   );
