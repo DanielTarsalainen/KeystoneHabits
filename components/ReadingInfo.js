@@ -3,7 +3,7 @@ import { StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { auth, db } from "../Firebase";
 import { ref, onValue } from "firebase/database";
 import { ListItem } from "react-native-elements";
-import ReadingItem from "./ReadingItem";
+import ReadingItem from "./items/ReadingItem";
 
 const ReadingInfo = ({ navigation }) => {
   const [items, setItems] = useState([]);
@@ -21,7 +21,7 @@ const ReadingInfo = ({ navigation }) => {
     return refresh;
   }, [navigation]);
 
-  // Clean up 2
+  // Clean up 
   useEffect(() => {
     return () => {
       setItems([]);
@@ -36,12 +36,12 @@ const ReadingInfo = ({ navigation }) => {
       .on("value", function (snapshot) {
         snapshot.forEach(function (data) {
           ref.child(data.key).remove();
-          deleteItemById(date);
+          filterItemById(date);
         });
       });
   };
 
-  const deleteItemById = (date) => {
+  const filterItemById = (date) => {
     const filteredData = items.filter((item) => item.date !== date);
     setItems(filteredData);
     alert("Reading session removed succesfully");

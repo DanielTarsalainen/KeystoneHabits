@@ -9,7 +9,7 @@ import { auth, db } from "../Firebase";
 import { push, ref, onValue } from "firebase/database";
 import { PricingCard, Button } from "react-native-elements";
 
-export default function KeystoneHabits({ navigation }) {
+export default function Habits({ navigation }) {
   const [timeRead, setTimeRead] = useState("");
   const [timeMeditated, setTimemeditated] = useState("");
   const [meditationItems, setMeditationItems] = useState([]);

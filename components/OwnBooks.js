@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { auth, db } from "../Firebase";
-import OwnItem from "./OwnItem";
+import OwnItem from "./items/OwnItem";
 import { ListItem } from "react-native-elements";
 
 export default function OwnBooks({ navigation }) {
@@ -31,12 +31,12 @@ export default function OwnBooks({ navigation }) {
       .on("value", function (snapshot) {
         snapshot.forEach(function (data) {
           ref.child(data.key).remove();
-          deleteItemById(bookId);
+          filterItemById(bookId);
         });
       });
   };
 
-  const deleteItemById = (bookId) => {
+  const filterItemById = (bookId) => {
     const filteredData = items.filter((item) => item.bookId !== bookId);
     setItems(filteredData);
     alert("Book was removed succesfully");

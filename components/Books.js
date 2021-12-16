@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Alert, StyleSheet, View, FlatList, SafeAreaView } from "react-native";
 import { auth, db } from "../Firebase";
 import { push, ref } from "firebase/database";
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Setting a timer"]);
-import Item from "./Item";
+import Item from "./items/Item";
 import { ListItem, SearchBar, Icon } from "react-native-elements";
 import googleKey from "../GoogleApi";
 
@@ -37,10 +37,10 @@ export default function Books({ navigation }) {
       bookId: item.id,
       userid: auth.currentUser.uid,
     });
-    deleteItemById(item.id);
+    filterItemById(item.id);
   };
 
-  const deleteItemById = (id) => {
+  const filterItemById = (id) => {
     const filteredData = books.filter((item) => item.id !== id);
     setBooks(filteredData);
     Alert.alert("Book was added succesfully!");

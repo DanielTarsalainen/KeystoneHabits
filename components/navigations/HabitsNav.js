@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import KeystoneHabits from '../Habits';
+import Habits from '../Habits';
 import ReadingInfo from '../ReadingInfo';
 import MeditationInfo from '../MeditationInfo'
 
@@ -11,7 +11,7 @@ export default function HabitsNav() {
   
   return (
       <Stack.Navigator>
-        <Stack.Screen options={{headerShown: false}} name="KeystoneHabits" component={KeystoneHabits} />
+        <Stack.Screen options={{headerShown: false}} name="KeystoneHabits" component={Habits} />
         <Stack.Screen options={{ headerShown: true }} name="Reading information" component={ReadingInfo} />
         <Stack.Screen options={{headerShown: true}} name="Meditation information" component={MeditationInfo} />
 

@@ -3,7 +3,7 @@ import { StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { auth, db } from "../Firebase";
 import { ref, onValue } from "firebase/database";
 import { ListItem } from "react-native-elements";
-import MeditationItem from "./MeditationItem";
+import MeditationItem from "./items/MeditationItem";
 
 const MeditationInfo = ({ navigation }) => {
   const [items, setItems] = useState([]);

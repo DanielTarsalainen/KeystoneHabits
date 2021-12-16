@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { auth, db } from "../Firebase";
 import { ListItem } from "react-native-elements";
-import FinishedItem from "./FinishedItem";
+import FinishedItem from "./items/FinishedItem";
 
-const ReadBooks = ({ navigation }) => {
+const FinishedBooks = ({ navigation }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -31,12 +31,12 @@ const ReadBooks = ({ navigation }) => {
       .on("value", function (snapshot) {
         snapshot.forEach(function (data) {
           ref.child(data.key).remove();
-          deleteItemById(bookId);
+          filterItemById(bookId);
         });
       });
   };
 
-  const deleteItemById = (bookId) => {
+  const filterItemById = (bookId) => {
     const filteredData = items.filter((item) => item.bookId !== bookId);
     setItems(filteredData);
     alert("Book removed succesfully");
@@ -60,7 +60,7 @@ const ReadBooks = ({ navigation }) => {
   );
 };
 
-export default ReadBooks;
+export default FinishedBooks;
 
 const styles = StyleSheet.create({
   container: {
