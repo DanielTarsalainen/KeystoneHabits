@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HabitsNav from "./HabitsNav";
-import DrawerNav from "./BooksNav";
+import BooksNav from "./BooksNav";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HomepageDrawer from "./HomepageDrawer";
 
@@ -36,7 +36,7 @@ const MainNav = () => {
       <Tab.Screen
         options={{ headerShown: false }}
         name="Books page"
-        component={DrawerNav}
+        component={BooksNav}
       />
       <Tab.Screen
         options={{ headerShown: false }}
