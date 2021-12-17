@@ -2,6 +2,7 @@
 #### Creator: Daniel Tarsalainen
 
 ### Used technologies:
+- Expo as the toolchain
 - React native as the programming language
 - Unsplash Image API to fetch inspirational images
 - Stoic Quotes API: https://stoic-server.herokuapp.com/random to fetch inspirational quotes alongside the images
