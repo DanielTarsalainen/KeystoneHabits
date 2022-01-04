@@ -23,21 +23,21 @@ const FinishedBooks = ({ navigation }) => {
     return refresh;
   }, [navigation]);
 
-  const removeItem = (bookId) => {
+  const removeItem = (id) => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);
     ref
-      .orderByChild("bookId")
-      .equalTo(bookId)
+      .orderByChild("id")
+      .equalTo(id)
       .on("value", function (snapshot) {
         snapshot.forEach(function (data) {
           ref.child(data.key).remove();
-          filterItemById(bookId);
+          filterItemById(id);
         });
       });
   };
 
-  const filterItemById = (bookId) => {
-    const filteredData = items.filter((item) => item.bookId !== bookId);
+  const filterItemById = (id) => {
+    const filteredData = items.filter((item) => item.id !== id);
     setItems(filteredData);
     alert("Book removed succesfully");
   };
@@ -46,12 +46,12 @@ const FinishedBooks = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={items}
-        keyExtractor={(item) => item.bookId}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <ListItem bottomDivider>
             <FinishedItem
               {...item}
-              onRightPress={() => removeItem(item.bookId)}
+              onRightPress={() => removeItem(item.id)}
             />
           </ListItem>
         )}

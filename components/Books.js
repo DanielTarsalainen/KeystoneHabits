@@ -11,10 +11,12 @@ import googleKey from "../GoogleApi";
 export default function Books({ navigation }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
+  let monthtime = new Date().toISOString().slice(0, 10);
+
 
   const checkBook = (item) => {
     var ref = db.ref(`books/${auth.currentUser.uid}/`);
-    var query = ref.orderByChild("bookId").equalTo(item.id);
+    var query = ref.orderByChild("title").equalTo(item.volumeInfo.title);
 
     query.once("value", function (snapshot) {
       if (snapshot.exists()) {
@@ -26,6 +28,7 @@ export default function Books({ navigation }) {
   };
 
   const saveBook = (item) => {
+      let clocktime = new Date().toLocaleTimeString().slice(0, 8);
     push(ref(db, `books/${auth.currentUser.uid}`), {
       author: item.volumeInfo.authors ? item.volumeInfo.authors[0] : null,
       title: item.volumeInfo.title ? item.volumeInfo.title : null,
@@ -34,8 +37,8 @@ export default function Books({ navigation }) {
         : null,
       pages: item.volumeInfo.pageCount ? item.volumeInfo.pageCount : null,
       isRead: false,
-      bookId: item.id,
       userid: auth.currentUser.uid,
+      id: monthtime + clocktime
     });
     filterItemById(item.id);
   };

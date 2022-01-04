@@ -23,42 +23,42 @@ export default function OwnBooks({ navigation }) {
     return refresh;
   }, [navigation]);
 
-  const removeItem = (bookId) => {
+  const removeItem = (id) => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);
     ref
-      .orderByChild("bookId")
-      .equalTo(bookId)
+      .orderByChild("id")
+      .equalTo(id)
       .on("value", function (snapshot) {
         snapshot.forEach(function (data) {
           ref.child(data.key).remove();
-          filterItemById(bookId);
+          filterItemById(id);
         });
       });
   };
 
-  const filterItemById = (bookId) => {
-    const filteredData = items.filter((item) => item.bookId !== bookId);
+  const filterItemById = (id) => {
+    const filteredData = items.filter((item) => item.id !== id);
     setItems(filteredData);
     alert("Book was removed succesfully");
   };
 
-  const markAsReadById = (bookId) => {
-    const filteredData = items.filter((item) => item.bookId !== bookId);
+  const markAsReadById = (id) => {
+    const filteredData = items.filter((item) => item.id !== id);
     setItems(filteredData);
     alert("Book added to 'Finished books' list ");
   };
 
-  const markAsRead = (item) => {
+  const markAsRead = (id) => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);
     ref
-      .orderByChild("bookId")
-      .equalTo(item)
+      .orderByChild("id")
+      .equalTo(id)
       .on("value", function (snapshot) {
         snapshot.forEach(function (data) {
           ref.child(data.key).update({
             isRead: true,
           });
-          markAsReadById(item);
+          markAsReadById(id);
         });
       });
   };
@@ -67,13 +67,13 @@ export default function OwnBooks({ navigation }) {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={items}
-        keyExtractor={(item) => item.bookId}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <ListItem bottomDivider>
             <OwnItem
               {...item}
-              onRightPress={() => removeItem(item.bookId)}
-              onSwipeFromLeft={() => markAsRead(item.bookId)}
+              onRightPress={() => removeItem(item.id)}
+              onSwipeFromLeft={() => markAsRead(item.id)}
             />
           </ListItem>
         )}
