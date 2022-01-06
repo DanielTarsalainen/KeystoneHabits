@@ -3,16 +3,16 @@ import {
   View,
   StyleSheet,
   Animated,
+  Easing,
   TouchableOpacity,
-  Image,
-  Button
+  Image
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-
 
 import { ListItem } from "react-native-elements";
 
 const LeftActions = (progress, dragX) => {
+
   const scale = dragX.interpolate({
     inputRange: [0, 100],
     outputRange: [0, 1],
@@ -76,7 +76,7 @@ const OwnItem = ({
       { pages ?
         <ListItem.Subtitle>Number of pages: {pages}</ListItem.Subtitle>
         : null}
-      <ListItem.Subtitle>Pages Read: {pagesRead}</ListItem.Subtitle>
+      <ListItem.Subtitle style={{marginBottom: 15}}>Pages read: {pagesRead}</ListItem.Subtitle>
       {picture ? (
         <Image source={{ uri: picture }} style={{ width: 100, height: 100 }} />
       ) : null}
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   rightAction2: {
-    backgroundColor: "blue",
+    backgroundColor: "#4edff9",
     justifyContent: "center",
     flex: 1,
     alignItems: "flex-end",

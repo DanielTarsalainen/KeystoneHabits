@@ -2,7 +2,6 @@ import 'react-native-gesture-handler';
 import React from "react";
 import { StyleSheet } from "react-native";
 import EditNav from './EditNav';
-import OwnBooks from "../OwnBooks";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import FinishedBooks from '../FinishedBooks';
 import Books from '../Books'
@@ -20,6 +19,8 @@ const DrawerNav = () => {
     </Drawer.Navigator>
   );
 };
+
+
 
 export default DrawerNav;
 

@@ -12,8 +12,10 @@ export default function EditNav() {
   return (
       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name="OwnBooks" component={OwnBooks} />
-        <Stack.Screen options={{ headerShown: true }} name="EditItem" component={EditItem} />
-      </Stack.Navigator>
+      <Stack.Screen name="Edit book" component={EditItem} />
+    </Stack.Navigator>
+    
+    
   );
 }
 

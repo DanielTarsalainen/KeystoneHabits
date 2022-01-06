@@ -11,26 +11,19 @@ const EditItem = ({navigation}) => {
   const [pages, setPages] = useState("");
   const isMountedRef = useRef(null);
 
-  if (global.__fbBatchedBridge) {
-  const origMessageQueue = global.__fbBatchedBridge;
-  const modules = origMessageQueue._remoteModuleTable;
-  const methods = origMessageQueue._remoteMethodTable;
-  global.findModuleByModuleAndMethodIds = (moduleId, methodId) => {
-    console.log(`The problematic line code is in: ${modules[moduleId]}.${methods[moduleId][methodId]}`)
-  }
-}
-
-
   const updatePages = () => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);
     ref
       .orderByChild("id")
       .equalTo(object.id)
-      .on("value", function (snapshot) {
+      .once("value", function (snapshot) {
         snapshot.forEach(function (data) {
           ref.child(data.key).update({
             pagesRead: pages,
-          });
+          }).catch((error) => {
+            console.log(error.message)
+          }
+          );
           exitPage()
         });
       });
@@ -54,9 +47,9 @@ const EditItem = ({navigation}) => {
 
   return (
       <View style={styles.container}>
-          <Text>Set current page</Text>
+          <Text style={{fontSize: 20}}>Set current page</Text>
       <TextInput
-        placeholder="Pages"
+        placeholder="Page number"
         value={pages}
         onChangeText={(text) => setPages(text)}
         style={styles.input}
@@ -64,7 +57,9 @@ const EditItem = ({navigation}) => {
           <Icon style={{marginTop: 20}} onPress={updatePages}
           name='save-outline'
           type='ionicon'
-            color='#517fa4'
+          color='#517fa4'
+          
+          size={36}
         />
     </View>
   );
@@ -84,5 +79,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 14,
+    marginBottom: 14
   },
 });

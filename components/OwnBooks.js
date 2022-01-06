@@ -25,14 +25,6 @@ export default function OwnBooks({ navigation }) {
     return refresh;
   }, [navigation]);
 
-  if (global.__fbBatchedBridge) {
-  const origMessageQueue = global.__fbBatchedBridge;
-  const modules = origMessageQueue._remoteModuleTable;
-  const methods = origMessageQueue._remoteMethodTable;
-  global.findModuleByModuleAndMethodIds = (moduleId, methodId) => {
-    console.log(`The problematic line code is in: ${modules[moduleId]}.${methods[moduleId][methodId]}`)
-  }
-}
 
    useEffect(() => {
       setItems([])
@@ -93,7 +85,7 @@ export default function OwnBooks({ navigation }) {
             <OwnItem
               {...item}
               onRightPress1={() => removeItem(item.id)}
-              onRightPress2={() => navigation.navigate("EditItem", { object: item } )}
+              onRightPress2={() => navigation.navigate("Edit book", { object: item } )}
               onSwipeFromLeft={() => markAsRead(item.id)}
             />
           </ListItem>
