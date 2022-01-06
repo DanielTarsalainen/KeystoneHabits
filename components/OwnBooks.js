@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { auth, db } from "../Firebase";
 import OwnItem from "./items/OwnItem";
@@ -6,6 +6,8 @@ import { ListItem } from "react-native-elements";
 
 export default function OwnBooks({ navigation }) {
   const [items, setItems] = useState([]);
+  const isMountedRef = useRef(null);
+
 
   useEffect(() => {
     const refresh = navigation.addListener("focus", () => {
@@ -22,6 +24,24 @@ export default function OwnBooks({ navigation }) {
 
     return refresh;
   }, [navigation]);
+
+  if (global.__fbBatchedBridge) {
+  const origMessageQueue = global.__fbBatchedBridge;
+  const modules = origMessageQueue._remoteModuleTable;
+  const methods = origMessageQueue._remoteMethodTable;
+  global.findModuleByModuleAndMethodIds = (moduleId, methodId) => {
+    console.log(`The problematic line code is in: ${modules[moduleId]}.${methods[moduleId][methodId]}`)
+  }
+}
+
+   useEffect(() => {
+      setItems([])
+   }, []);
+  
+    useEffect(() => {
+    isMountedRef.current = true;
+    return () => (isMountedRef.current = false);
+  }, []);
 
   const removeItem = (id) => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);

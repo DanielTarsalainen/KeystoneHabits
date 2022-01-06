@@ -11,6 +11,15 @@ const EditItem = ({navigation}) => {
   const [pages, setPages] = useState("");
   const isMountedRef = useRef(null);
 
+  if (global.__fbBatchedBridge) {
+  const origMessageQueue = global.__fbBatchedBridge;
+  const modules = origMessageQueue._remoteModuleTable;
+  const methods = origMessageQueue._remoteMethodTable;
+  global.findModuleByModuleAndMethodIds = (moduleId, methodId) => {
+    console.log(`The problematic line code is in: ${modules[moduleId]}.${methods[moduleId][methodId]}`)
+  }
+}
+
 
   const updatePages = () => {
     var ref = db.ref(`books/${auth.currentUser.uid}`);
@@ -25,8 +34,8 @@ const EditItem = ({navigation}) => {
           exitPage()
         });
       });
-    };
-    
+  };
+      
     const exitPage = () => {
         navigation.replace("OwnBooks")
     }
@@ -39,6 +48,7 @@ const EditItem = ({navigation}) => {
   useEffect(() => {
     return () => {
       setPages("")
+      const isMountedRef = useRef(null);
     };
   }, []);
 
