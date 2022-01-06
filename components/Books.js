@@ -35,7 +35,7 @@ export default function Books({ navigation }) {
       picture: item.volumeInfo.imageLinks
         ? item.volumeInfo.imageLinks.smallThumbnail
         : null,
-      pages: item.volumeInfo.pageCount ? item.volumeInfo.pageCount : null,
+      pages: item.volumeInfo.pageCount ? item.volumeInfo.pageCount : null, pagesRead: 0,
       isRead: false,
       userid: auth.currentUser.uid,
       id: monthtime + clocktime

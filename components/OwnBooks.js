@@ -72,7 +72,8 @@ export default function OwnBooks({ navigation }) {
           <ListItem bottomDivider>
             <OwnItem
               {...item}
-              onRightPress={() => removeItem(item.id)}
+              onRightPress1={() => removeItem(item.id)}
+              onRightPress2={() => navigation.navigate("EditItem", { object: item } )}
               onSwipeFromLeft={() => markAsRead(item.id)}
             />
           </ListItem>
