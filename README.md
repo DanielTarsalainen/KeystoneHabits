@@ -18,7 +18,7 @@
 #### View 1:
 </br>
 
-<img src="https://user-images.githubusercontent.com/77921212/152025046-7269f21b-4a42-4f4b-ab33-b00da22d10ff.png" width="420" height="600">
+<img src="https://user-images.githubusercontent.com/77921212/152025046-7269f21b-4a42-4f4b-ab33-b00da22d10ff.png" width="360" height="800">
 
 #### View 2:
 </br>
