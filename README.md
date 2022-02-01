@@ -2,7 +2,7 @@
 #### Creator: Daniel Tarsalainen
 
 ### Basic information
-KeystoneHabits is a Self-help application for everyone interested in ancient philosophy, books and meditation. It fetches a quote and image automatically everyday and allows the user to search and save books from Google Books. When saved, a user can mark a book as read (to place it to "Finished books" -list), set the current page or delete it. "Finished books" -list shows all the books that the user has marked as read, it also allows the user to delete books. 
+KeystoneHabits is a Self-help application for everyone interested in ancient philosophy, books and meditation. It fetches a quote and image automatically everyday and allows the user to search and save books from Google Books. When saved, a user can mark a book as read (to place it to the "Finished books" -list), set the current page or delete it. "Finished books" -list shows all the books that the user has marked as read, it also allows the user to delete books. 
 
 Habits-page lets the user to save meditation and reading -sessions, as well as track their progress on either of the activities.
 
