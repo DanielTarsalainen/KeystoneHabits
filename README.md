@@ -42,8 +42,16 @@ Habits-page lets the user to save meditation and reading -sessions, as well as t
 </br>
 </br>
 
+### View 4 (Sign out):
 
-### View 4 (Books-page):
+<img src="https://user-images.githubusercontent.com/77921212/158017152-0ba53b19-fed9-4deb-843e-f3f66b75ab0b.png" width="360" height="800">
+
+</br>
+</br>
+
+
+
+### View 5 (Books-page):
 
 <img src="https://user-images.githubusercontent.com/77921212/152025165-b9863e67-7e5d-4d8f-b150-66f822b3105f.png" width="360" height="800">
 
@@ -51,7 +59,7 @@ Habits-page lets the user to save meditation and reading -sessions, as well as t
 </br>
 
 
-### View 5 (Reading currently -list):
+### View 6 (Reading currently -list):
 
 <img src="https://user-images.githubusercontent.com/77921212/152025190-431ef0c8-b783-4921-b92e-6882190c85d6.png" width="360" height="800">
 
@@ -59,7 +67,7 @@ Habits-page lets the user to save meditation and reading -sessions, as well as t
 </br>
 
 
-### View 6 (Finished books -list):
+### View 7 (Finished books -list):
 
 <img src="https://user-images.githubusercontent.com/77921212/152025214-5699302e-80ec-4584-9502-d8779cf28fdb.png" width="360" height="800">
 
@@ -67,7 +75,7 @@ Habits-page lets the user to save meditation and reading -sessions, as well as t
 </br>
 
 
-### View 7 (Habits-page):
+### View 8 (Habits-page):
 
 <img src="https://user-images.githubusercontent.com/77921212/152025279-278988a1-d8b1-417d-80ae-ba3e636529de.png" width="360" height="800">
 
@@ -75,7 +83,7 @@ Habits-page lets the user to save meditation and reading -sessions, as well as t
 </br>
 
 
-### View 8 (Reading info -page):
+### View 9 (Reading info -page):
 
 <img src="https://user-images.githubusercontent.com/77921212/152025301-63b51350-ee6c-4aed-ad34-432a30af1f43.png" width="360" height="800">
 
@@ -83,7 +91,7 @@ Habits-page lets the user to save meditation and reading -sessions, as well as t
 </br>
 
 
-### View 9 (Meditation info -page):
+### View 10 (Meditation info -page):
 
 <img src="https://user-images.githubusercontent.com/77921212/152025361-8d788fb1-d8d0-4174-865b-4e7e1c9f35b5.png" width="360" height="800">
 
