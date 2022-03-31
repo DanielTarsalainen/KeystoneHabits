@@ -2,6 +2,10 @@
 #### Creator: Daniel Tarsalainen
 
 ### Basic information
+
+- [Mobile programming](https://opinto-opas.haaga-helia.fi/course_unit/SWD4TF020) -end project
+- Grade 5/5
+
 KeystoneHabits is a Self-help application for everyone interested in ancient philosophy, reading and meditation. It fetches a quote and image automatically every day and allows the user to search and save books from Google Books. When saved, a user can mark a book as read (to place it to the "Finished books" -list), set the current page or delete it. A swipe gesture from left to right marks a book as read and swipe from right to left opens the deletion possibility. "Finished books" -list shows all the books that the user has marked as read, it also allows the user to delete books.
 
 Habits-page lets the user to save meditation and reading -sessions, as well as track their progress on either of the activities. As in the books-section, when a user swipes from right to left, the deletion possibility emerges.
