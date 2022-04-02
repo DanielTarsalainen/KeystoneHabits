@@ -8,9 +8,9 @@
 
 #### Introduction
 
-KeystoneHabits is a Self-help application for everyone interested in ancient philosophy, reading and meditation. It fetches a quote and image automatically every day and allows the user to search and save books from Google Books. When saved, a user can mark a book as read (to place it to the "Finished books" -list), set the current page or delete it. A swipe gesture from left to right marks a book as read and swipe from right to left opens the deletion possibility. "Finished books" -list shows all the books that the user has marked as read, it also allows the user to delete books.
+KeystoneHabits is a Self-help application for everyone interested in ancient philosophy, reading and meditation. It fetches a quote and image automatically every day and allows a user to search and save books from Google Books. When a book is saved, a user can mark it as read (to place it to the "Finished books" -list), set the current page or delete it. A swipe gesture from left to right marks a book as read and swipe from right to left opens the deletion possibility. "Finished books" -list shows all the books that a user has marked as read, it also allows a user to delete books.
 
-Habits-page lets the user to save meditation and reading -sessions, as well as track their progress on either of the activities. As in the books-section, when a user swipes from right to left, the deletion possibility emerges.
+Habits-page lets a user to save meditation and reading -sessions, as well as track their progress on either of the activities. As in the books-section, when a user swipes from right to left, the deletion possibility emerges.
 
 <br/>
 
