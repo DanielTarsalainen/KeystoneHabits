@@ -48,7 +48,7 @@ Habits-page lets a user to save meditation and reading -sessions, as well as tra
 </br>
 </br>
 
-### View 4 (Sign out):
+### View 4 (Log out -page):
 
 <img src="https://user-images.githubusercontent.com/77921212/158017152-0ba53b19-fed9-4deb-843e-f3f66b75ab0b.png" width="360" height="800">
 
