@@ -14,7 +14,7 @@ Habits-page lets a user to save meditation and reading -sessions, as well as tra
 
 <br/>
 
-### Used technologies:
+### Used technologies
 - Expo as the toolchain
 - React native as the programming language
 - Unsplash Image API to fetch inspirational images
